@@ -240,3 +240,10 @@ app.py                 Streamlit demo
 5. **Backtest the screen.** Run it on data as of 12 months ago and measure
    whether the confidence gate actually improved forward returns. Right now the
    gate is principled but unvalidated.
+
+---
+
+## Slide deck
+
+Open `deck.html` in a browser (14 slides, arrow keys to navigate), or view it
+online: https://claude.ai/artifact/PkW3P4xXAERBTFt3JeS7UU

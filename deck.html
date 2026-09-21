@@ -1,0 +1,451 @@
+<title>Screening Fintech With A Sceptical Machine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+:root{
+  --paper:#f2f5f6; --panel:#fbfcfc; --ink:#121a1f; --ink-2:#38474f; --muted:#69797f;
+  --rule:#d3dcdf; --rule-2:#e6ecee;
+  --accent:#1a6b74; --accent-soft:#e0eef0;
+  --warn:#a8621f; --warn-soft:#f6ebe0;
+  --bad:#9c3434;  --bad-soft:#f7e6e6;
+  --good:#2c6b4d; --good-soft:#e3efe9;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0d1418; --panel:#131d22; --ink:#e8eef0; --ink-2:#b3c2c7; --muted:#7f9198;
+    --rule:#26343a; --rule-2:#1c282d;
+    --accent:#63b8bf; --accent-soft:#132c30;
+    --warn:#d6975a; --warn-soft:#2c2115;
+    --bad:#d97b7b;  --bad-soft:#2d1818;
+    --good:#72b894; --good-soft:#142620;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0d1418; --panel:#131d22; --ink:#e8eef0; --ink-2:#b3c2c7; --muted:#7f9198;
+  --rule:#26343a; --rule-2:#1c282d;
+  --accent:#63b8bf; --accent-soft:#132c30;
+  --warn:#d6975a; --warn-soft:#2c2115;
+  --bad:#d97b7b;  --bad-soft:#2d1818;
+  --good:#72b894; --good-soft:#142620;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:16px;line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+.deck{scroll-snap-type:y mandatory;overflow-y:auto;height:100%}
+.slide{
+  scroll-snap-align:start;min-height:100svh;display:flex;flex-direction:column;
+  justify-content:center;padding-block:56px 72px;padding-left:max(24px,env(safe-area-inset-left));
+  padding-right:max(24px,env(safe-area-inset-right));
+}
+.inner{width:100%;max-width:1040px;margin:0 auto}
+
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:500;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--accent);display:flex;gap:14px;align-items:center;
+  margin-bottom:18px;
+}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--rule)}
+h1{font-family:var(--sans);font-weight:700;font-size:clamp(34px,6.4vw,66px);line-height:1.02;
+   letter-spacing:-.025em;margin:0 0 20px;text-wrap:balance}
+h2{font-family:var(--sans);font-weight:600;font-size:clamp(25px,3.7vw,40px);line-height:1.1;
+   letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance}
+h3{font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.01em;margin:0 0 8px}
+p{margin:0 0 14px;max-width:66ch;color:var(--ink-2)}
+.lead{font-size:clamp(17px,2.1vw,21px);line-height:1.5;color:var(--ink)}
+strong{color:var(--ink);font-weight:500}
+em{font-style:italic}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.dim{color:var(--muted)}
+
+/* ---- tables ---- */
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-family:var(--mono);font-size:12.5px;
+      font-variant-numeric:tabular-nums;min-width:540px}
+th{text-align:right;font-weight:600;font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+   color:var(--muted);padding:10px 12px;border-bottom:1px solid var(--rule);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+td{padding:8px 12px;border-bottom:1px solid var(--rule-2);text-align:right;white-space:nowrap;color:var(--ink-2)}
+tbody tr:last-child td{border-bottom:none}
+td.tk{font-weight:600;color:var(--ink)}
+tr.hl td{background:var(--accent-soft);color:var(--ink)}
+tr.out td{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--rule)}
+tr.med td{border-top:1px solid var(--rule);font-weight:600;color:var(--ink);background:var(--rule-2)}
+caption{caption-side:bottom;text-align:left;padding:10px 12px;font-family:var(--serif);
+        font-size:13px;color:var(--muted);border-top:1px solid var(--rule-2)}
+
+/* ---- chips ---- */
+.chip{font-family:var(--mono);font-size:10px;font-weight:500;letter-spacing:.05em;
+      padding:2px 7px;border-radius:2px;display:inline-block;white-space:nowrap}
+.c-warn{background:var(--warn-soft);color:var(--warn)}
+.c-bad{background:var(--bad-soft);color:var(--bad)}
+.c-good{background:var(--good-soft);color:var(--good)}
+.c-acc{background:var(--accent-soft);color:var(--accent)}
+
+/* ---- grids ---- */
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:18px}
+.stack{display:flex;flex-direction:column;gap:16px}
+
+/* findings: severity stripe, not a card */
+.find{display:grid;grid-template-columns:auto 1fr;gap:16px;padding:14px 0;border-top:1px solid var(--rule-2)}
+.find:first-child{border-top:none}
+.find .n{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--paper);
+         background:var(--ink);width:22px;height:22px;display:grid;place-items:center;border-radius:2px}
+.find p{margin:4px 0 0;font-size:14.5px}
+
+.tier{border-left:3px solid var(--rule);padding:2px 0 2px 16px}
+.tier.t1{border-color:var(--good)} .tier.t2{border-color:var(--warn)} .tier.t3{border-color:var(--bad)}
+.tier h3{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.tier p{font-size:14.5px;margin:0}
+
+.callout{border:1px solid var(--rule);border-left:3px solid var(--accent);background:var(--panel);
+         padding:16px 18px;border-radius:2px}
+.callout.warn{border-left-color:var(--warn)}
+.callout.bad{border-left-color:var(--bad)}
+.callout p{margin:0;font-size:14.5px}
+.callout p + p{margin-top:9px}
+
+pre{font-family:var(--mono);font-size:12px;background:var(--panel);border:1px solid var(--rule);
+    border-radius:2px;padding:13px 15px;overflow-x:auto;margin:0;color:var(--ink-2);line-height:1.6}
+pre b{color:var(--bad);font-weight:600}
+
+.big{font-family:var(--mono);font-weight:600;font-size:clamp(30px,5vw,46px);line-height:1;
+     letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.big.acc{color:var(--accent)} .big.bad{color:var(--bad)} .big.good{color:var(--good)}
+.stat h3{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;
+         color:var(--muted);margin-bottom:9px}
+.stat p{font-size:13.5px;margin:9px 0 0;max-width:34ch}
+
+/* pipeline */
+.pipe{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.step{flex:1 1 140px;border:1px solid var(--rule);border-top:2px solid var(--accent);
+      background:var(--panel);padding:12px 13px;border-radius:2px}
+.step .k{font-family:var(--mono);font-size:10px;letter-spacing:.09em;color:var(--muted);text-transform:uppercase}
+.step .v{font-family:var(--sans);font-weight:600;font-size:14px;margin-top:5px;color:var(--ink)}
+.step .d{font-size:12.5px;color:var(--ink-2);margin-top:5px;line-height:1.45}
+.step.gate{border-top-color:var(--warn)}
+
+ul.tight{margin:0;padding-left:18px;max-width:66ch;color:var(--ink-2)}
+ul.tight li{margin-bottom:8px;font-size:14.5px}
+ul.tight li::marker{color:var(--accent)}
+
+/* progress + nav */
+.rail{position:fixed;top:0;left:0;right:0;height:2px;background:transparent;z-index:20}
+.rail i{display:block;height:100%;width:0;background:var(--accent);transition:width .18s ease}
+.pager{position:fixed;bottom:0;right:0;z-index:20;font-family:var(--mono);font-size:11px;
+       color:var(--muted);background:var(--paper);border-top:1px solid var(--rule);
+       border-left:1px solid var(--rule);padding:7px 14px;
+       padding-bottom:calc(7px + env(safe-area-inset-bottom,0px));border-radius:3px 0 0 0}
+.pager b{color:var(--ink);font-weight:600}
+.hint{font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:26px}
+kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--rule);border-bottom-width:2px;
+    border-radius:3px;padding:1px 5px;color:var(--ink-2);background:var(--panel)}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media (max-width:620px){.slide{min-height:auto;padding-block:44px}.deck{scroll-snap-type:none}}
+</style>
+
+<div class="rail"><i id="bar"></i></div>
+<div class="pager"><b id="cur">1</b> / 14</div>
+
+<div class="deck" id="deck">
+
+<!-- 1 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">Take-home · Company screening &amp; valuation</div>
+  <h1>Screening fintech with a sceptical machine</h1>
+  <p class="lead">A prototype that screens 15 public companies across two fintech sub-sectors — and spends most of its effort deciding which of its own numbers to distrust.</p>
+  <div class="g3" style="margin-top:34px">
+    <div class="stat"><h3>Universe</h3><div class="big">15</div><p>8 payments · 7 FI software · 5 under-covered</p></div>
+    <div class="stat"><h3>AI claims verified</h3><div class="big">38<span class="dim" style="font-size:.5em">/41</span></div><p>3 failed against live data</p></div>
+    <div class="stat"><h3>Recommendation</h3><div class="big acc">MITK</div><p>Pursue Mitek · pass Open Lending</p></div>
+  </div>
+  <p class="hint">Use <kbd>↓</kbd> <kbd>↑</kbd> or scroll to advance · 14 slides</p>
+</div></section>
+
+<!-- 2 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">01 · Segmentation</div>
+  <h2>Split by revenue mechanics, not by industry label</h2>
+  <div class="g2" style="margin:22px 0 24px">
+    <div>
+      <h3 style="color:var(--accent)">Merchant payments &amp; processing</h3>
+      <p style="font-size:14.5px">Revenue = volume × take rate. Mature, EBITDA-positive, cash-generative, macro-sensitive.</p>
+      <p class="mono" style="font-size:12.5px">PYPL · GPN · FISV · EVTC · PAYO · MQ · <strong>PRTH</strong> · <strong>PMTS</strong></p>
+      <p><span class="chip c-acc">Primary multiple · EV/EBITDA</span></p>
+    </div>
+    <div>
+      <h3 style="color:var(--accent)">Financial-institution software</h3>
+      <p style="font-size:14.5px">Revenue = multi-year recurring contracts sold to banks and credit unions. High visibility, heavy reinvestment, often GAAP-unprofitable.</p>
+      <p class="mono" style="font-size:12.5px">JKHY · QTWO · NCNO · ALKT · <strong>MITK</strong> · <strong>LPRO</strong> · <strong>IIIV</strong></p>
+      <p><span class="chip c-acc">Primary multiple · EV/Revenue</span></p>
+    </div>
+  </div>
+  <div class="callout"><p><strong>Why the labels are useless here.</strong> The API classifies PayPal as “Credit Services”, Priority Technology as “Software – Infrastructure”, and CPI Card Group as “Credit Services”. Those cut straight across the economic distinction that actually drives the multiple, so segmentation is manual and business-model-based.</p></div>
+</div></section>
+
+<!-- 3 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">02 · Architecture</div>
+  <h2>Seven steps, and two of them are about doubt</h2>
+  <div class="pipe" style="margin:24px 0 22px">
+    <div class="step"><div class="k">01</div><div class="v">Fetch</div><div class="d">Multi-source fallback with per-field provenance</div></div>
+    <div class="step"><div class="k">02</div><div class="v">Comps</div><div class="d">Every multiple recomputed, never taken from the API</div></div>
+    <div class="step gate"><div class="k">03</div><div class="v">Quality gate</div><div class="d">12 flags, three response tiers</div></div>
+    <div class="step"><div class="k">04</div><div class="v">Medians</div><div class="d">Metric-level suppression</div></div>
+    <div class="step"><div class="k">05</div><div class="v">Valuation</div><div class="d">Scenario DCF + reverse DCF</div></div>
+    <div class="step gate"><div class="k">06</div><div class="v">AI verify</div><div class="d">41 claims tested against pulled data</div></div>
+    <div class="step"><div class="k">07</div><div class="v">Screen</div><div class="d">Score × confidence</div></div>
+  </div>
+  <p>Resolution order for every field is <span class="mono">ttm_quarterly → statement_fy → info → derived</span>, and the source that won is recorded. Provenance is an output, not a debugging aid: a reviewer can see which figures came from filed statements and which the tool computed itself.</p>
+  <div class="callout"><p><strong>Nothing is silently imputed.</strong> Where a value is estimated it is tagged <span class="mono">derived</span> and surfaced in the provenance table.</p></div>
+</div></section>
+
+<!-- 4 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">03 · Messy data</div>
+  <h2>Four things broke. The tool found all four.</h2>
+  <div style="margin-top:20px">
+    <div class="find"><div class="n">1</div><div>
+      <h3>Fiserv — a $25bn company with no financials <span class="chip c-warn">recovered</span></h3>
+      <p>The summary endpoint returned a market cap but <strong>no revenue, no EBITDA, no industry</strong>. The filed-statements endpoint had all of it, correctly. A naive <span class="mono">info["totalRevenue"]</span> pipeline drops a mega-cap silently. Hence the fallback chain.</p></div></div>
+    <div class="find"><div class="n">2</div><div>
+      <h3>MeridianLink — the ticker is dead <span class="chip c-bad">removed</span></h3>
+      <p>Returned <span class="mono">404 · Quote not found</span>. Taken private by Centerbridge. Caught by probing the universe empirically <em>before</em> building around it — a dead ticker found late is expensive.</p></div></div>
+    <div class="find"><div class="n">3</div><div>
+      <h3>i3 Verticals — no longer a payments company <span class="chip c-bad">excluded</span></h3>
+      <p>Revenue read <span class="mono">$213M</span> against a remembered scale near <span class="mono">$385M</span>. The filed business description resolved it: it now sells software to <strong>courts and municipalities</strong>. It divested merchant services.</p></div></div>
+    <div class="find"><div class="n">4</div><div>
+      <h3>Open Lending — +288% growth that isn’t growth <span class="chip c-warn">corrected</span></h3>
+      <p>Revenue ran <span class="mono">$179.6M → $117.5M → $24.0M → $93.2M</span>. The 2024 collapse is a profit-share write-down. The bounce off it is recovery, not expansion. Trend substituted: <strong>−19.6%</strong>.</p></div></div>
+  </div>
+</div></section>
+
+<!-- 5 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">04 · Handling policy</div>
+  <h2>Exclude the metric, not the company</h2>
+  <p class="lead" style="margin-bottom:26px">Free data is wrong in three different ways, and they need three different responses. Collapsing them into “drop the row” destroys information.</p>
+  <div class="stack">
+    <div class="tier t1"><h3>Tier 1 · Flag, keep in the median</h3><p>The value is real, the pedigree is worth knowing. <span class="mono">EV_DERIVED</span> — enterprise value we computed because the API withheld it.</p></div>
+    <div class="tier t2"><h3>Tier 2 · Flag, drop that metric, keep the row</h3><p>A negative EV/EBITDA is not a cheap multiple, it is a category error, and it corrupts the median for everyone else. But the same company’s EV/Revenue is perfectly good. <strong>Alkami keeps its revenue multiple and loses its EBITDA multiple.</strong></p></div>
+    <div class="tier t3"><h3>Tier 3 · Exclude the company, in writing</h3><p>Reserved for <em>business-model mismatch</em> — never for numbers being inconvenient. One name qualifies: i3 Verticals.</p></div>
+  </div>
+  <div class="callout" style="margin-top:24px"><p>The distinction matters because Tier 2 is where most of the value is. Dropping a whole row because one field is unusable is the common shortcut, and it quietly shrinks the peer set exactly where the interesting names live.</p></div>
+</div></section>
+
+<!-- 6 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">05 · Self-correction</div>
+  <h2>A flag that fired on 9 of 15 names was the bug</h2>
+  <p>An early run flagged <span class="mono">API_MULTIPLE_DISAGREES</span> — our recomputed multiple versus the API’s — on <strong>60% of the universe</strong>. A flag that fires that often is either miscalibrated or hiding something.</p>
+  <pre>PYPL   FY_stmt  33,172    info_TTM  34,128    gap  +2.9%
+GPN    FY_stmt   7,706    info_TTM  10,207    gap <b>+32.5%</b>
+PAYO   FY_stmt     821    info_TTM   1,081    gap <b>+31.7%</b>
+MITK   FY_stmt     180    info_TTM     198    gap +10.1%</pre>
+  <p style="margin-top:16px">It was hiding two things. Statement revenue is <strong>fiscal year</strong>; the API’s summary revenue is <strong>TTM</strong> — the pipeline was comparing across periods. And underneath that, Global Payments reports on two different bases entirely.</p>
+  <div class="callout warn"><p><strong>Rebuilding TTM from quarterly filings dropped the flag to near zero — and changed real conclusions.</strong> Marqeta’s EBITDA flips sign between the two bases. The fix was not cosmetic.</p></div>
+</div></section>
+
+<!-- 7 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">06 · Gross vs net</div>
+  <h2>Why payments can’t be valued on revenue</h2>
+  <p>Payments companies report revenue <strong>gross</strong> (including interchange passed through to networks and issuers) or <strong>net</strong> of it. Both are legitimate. Neither is comparable to the other.</p>
+  <div class="tw" style="margin:20px 0">
+    <table><thead><tr><th>Company</th><th>Net revenue</th><th>Gross revenue</th><th>Gap</th><th>EV/Revenue</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">GPN</td><td>$7,706M</td><td>$10,207M</td><td style="color:var(--bad)">+32.5%</td><td>suppressed</td></tr>
+      <tr><td class="tk">PAYO</td><td>$821M</td><td>$1,081M</td><td style="color:var(--bad)">+31.7%</td><td>suppressed</td></tr>
+      <tr><td class="tk">PRTH</td><td colspan="2" style="text-align:left;padding-left:12px" class="dim">$1,000M — gross-basis reporter</td><td>—</td><td>1.4×</td></tr>
+    </tbody>
+    <caption>Ranking these three on EV/Revenue would rank them by accounting policy, not by value.</caption></table>
+  </div>
+  <p>EBITDA sits <em>below</em> those passthroughs and is comparable. So the tool assigns a <strong>primary multiple per sub-sector</strong> — EV/EBITDA for payments, EV/Revenue for FI software — and suppresses the unreliable one rather than averaging both into a number that means nothing.</p>
+</div></section>
+
+<!-- 8 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">07 · Comps</div>
+  <h2>The table, split by sub-sector</h2>
+  <div class="tw" style="margin-bottom:16px">
+    <table><thead><tr><th>Payments</th><th>Mkt cap</th><th>Revenue</th><th>EBITDA</th><th>EV/EBITDA</th><th>Margin</th><th>Growth</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">PYPL</td><td>$44.8B</td><td>$34.1B</td><td>$7.3B</td><td>6.6×</td><td>21.4%</td><td>4.3%</td></tr>
+      <tr><td class="tk">FISV</td><td>$25.1B</td><td>$20.9B</td><td>$8.1B</td><td>6.6×</td><td>38.9%</td><td>3.6%</td></tr>
+      <tr><td class="tk">GPN</td><td>$22.5B</td><td>$10.2B</td><td>$3.8B</td><td>10.9×</td><td>37.3%</td><td>−0.4%</td></tr>
+      <tr><td class="tk">PAYO</td><td>$2.4B</td><td>$862M</td><td>$188M</td><td>11.5×</td><td>21.8%</td><td>13.9%</td></tr>
+      <tr><td class="tk">EVTC</td><td>$1.7B</td><td>$996M</td><td>$346M</td><td>8.1×</td><td>34.7%</td><td>10.2%</td></tr>
+      <tr class="out"><td class="tk">MQ</td><td>$1.6B</td><td>$677M</td><td>$21M</td><td>44.6×</td><td>3.1%</td><td>23.3%</td></tr>
+      <tr><td class="tk">PRTH</td><td>$481M</td><td>$1,000M</td><td>$211M</td><td>6.7×</td><td>21.1%</td><td>8.3%</td></tr>
+      <tr><td class="tk">PMTS</td><td>$280M</td><td>$587M</td><td>$80M</td><td>7.3×</td><td>13.6%</td><td>13.1%</td></tr>
+      <tr class="med"><td>Median</td><td>—</td><td>—</td><td>—</td><td>7.26×</td><td>22%</td><td>9%</td></tr>
+    </tbody></table>
+  </div>
+  <div class="tw">
+    <table><thead><tr><th>FI software</th><th>Mkt cap</th><th>Revenue</th><th>EBITDA</th><th>EV/Revenue</th><th>Margin</th><th>Growth</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">JKHY</td><td>$10.9B</td><td>$2.5B</td><td>$871M</td><td>4.29×</td><td>34.2%</td><td>7.1%</td></tr>
+      <tr><td class="tk">QTWO</td><td>$3.7B</td><td>$846M</td><td>$152M</td><td>4.25×</td><td>18.0%</td><td>14.1%</td></tr>
+      <tr><td class="tk">NCNO</td><td>$2.2B</td><td>$622M</td><td>$93M</td><td>4.01×</td><td>14.9%</td><td>10.0%</td></tr>
+      <tr><td class="tk">ALKT</td><td>$2.0B</td><td>$490M</td><td>−$0.0M</td><td>4.74×</td><td>−0.1%</td><td>32.9%</td></tr>
+      <tr class="hl"><td class="tk">MITK</td><td>$755M</td><td>$198M</td><td>$53M</td><td>3.59×</td><td>27.0%</td><td>4.4%</td></tr>
+      <tr><td class="tk">LPRO</td><td>$372M</td><td>$89M</td><td>$4M</td><td>3.17×</td><td>4.9%</td><td>−19.6%</td></tr>
+      <tr class="out"><td class="tk">IIIV</td><td>$514M</td><td>$218M</td><td>$48M</td><td>2.36×</td><td>21.9%</td><td>11.5%</td></tr>
+      <tr class="med"><td>Median</td><td>—</td><td>—</td><td>—</td><td>4.13×</td><td>18%</td><td>9%</td></tr>
+    </tbody>
+    <caption>Struck rows are excluded from medians — Marqeta on an extreme multiple, i3 Verticals on business-model drift.</caption></table>
+  </div>
+</div></section>
+
+<!-- 9 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">08 · Valuation</div>
+  <h2>My first DCF said Priority was worth +584%. So I inverted it.</h2>
+  <p>Two things were wrong. The scenario levers stacked multiplicatively. And more fundamentally, a 9.5% WACC with 2.5% terminal growth implies a terminal value near <strong>14.6× FCFF</strong> — when the market pays <strong>6–8× EBITDA</strong> for these businesses.</p>
+  <p>A forward DCF on free data produces a number nobody should trust. A <strong>reverse DCF</strong> produces a falsifiable statement: <em>what does the market have to believe for today’s price to be right?</em></p>
+  <div class="tw" style="margin:20px 0">
+    <table><thead><tr><th>Company</th><th>Price</th><th>Implied terminal growth</th><th>Reading</th></tr></thead>
+    <tbody>
+      <tr><td class="tk">PYPL</td><td>$52.41</td><td style="color:var(--bad)">−2.2%</td><td style="text-align:left">Priced for perpetual decline</td></tr>
+      <tr><td class="tk">FISV</td><td>$47.19</td><td style="color:var(--bad)">−1.6%</td><td style="text-align:left">Priced for perpetual decline</td></tr>
+      <tr><td class="tk">PRTH</td><td>$5.83</td><td style="color:var(--bad)">−3.1%</td><td style="text-align:left">Steepest decline assumption in the set</td></tr>
+      <tr><td class="tk">EVTC</td><td>$27.65</td><td>+1.7%</td><td style="text-align:left">Roughly inflation</td></tr>
+      <tr><td class="tk">PAYO</td><td>$7.13</td><td style="color:var(--warn)">+8.7%</td><td style="text-align:left">Demands high growth forever</td></tr>
+      <tr><td class="tk">MQ</td><td>$15.57</td><td style="color:var(--bad)">no solution</td><td style="text-align:left">Price cannot be explained by terminal growth at all</td></tr>
+    </tbody></table>
+  </div>
+  <div class="callout warn"><p><strong>The tool flags its own unreliability.</strong> Where the DCF base case diverges from the primary comps multiple by more than 50%, it says so. Where more than 75% of value sits in the terminal year, it labels the output a terminal-value bet rather than a valuation.</p></div>
+</div></section>
+
+<!-- 10 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">09 · The AI layer</div>
+  <h2>Every AI claim carries a test</h2>
+  <p>The qualitative layer is not free text. Each company entry carries <strong>machine-checkable claims</strong> — a numeric assertion about a computed field, or an assertion that a named quality flag will fire. All 41 are evaluated on every run.</p>
+  <div class="g3" style="margin:24px 0">
+    <div class="stat"><h3>Claims</h3><div class="big">41</div></div>
+    <div class="stat"><h3>Passed</h3><div class="big good">38</div></div>
+    <div class="stat"><h3>Failed</h3><div class="big bad">3</div></div>
+  </div>
+  <pre><b>[FAIL]</b> MQ-1    "Marqeta's EBITDA is negative"
+        -> ebitda = 2.08e+07; claim asserted &lt; 0
+<b>[FAIL]</b> GPN-3   "GPN revenue is growing"
+        -> rev_growth = -0.00389; claim asserted &gt; 0
+<b>[FAIL]</b> NCNO-2  "nCino trades at a premium EV/Revenue"
+        -> ev_revenue = 4.012; claim asserted &gt; 4.13</pre>
+  <p style="margin-top:16px">This makes “I checked the AI’s work” a reproducible artefact rather than an assurance. Anyone can re-run the pipeline and see the same three failures.</p>
+</div></section>
+
+<!-- 11 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">10 · The error worth dwelling on</div>
+  <h2>The AI was right. The world moved.</h2>
+  <div class="callout bad" style="margin-bottom:22px">
+    <p><strong>Claim MQ-1 — “Marqeta’s EBITDA is negative.”</strong></p>
+    <p>True on FY2025: <span class="mono">−$19M</span>. The model’s knowledge ends May 2026 and reported that correctly.</p>
+    <p><strong>TTM EBITDA is <span class="mono">+$20.8M</span>.</strong> Marqeta crossed into EBITDA-positive territory in the intervening quarters.</p>
+  </div>
+  <p><strong>Why this one is instructive.</strong> The error was invisible on annual data. It only appeared once the pipeline computed TTM from quarterly filings. An AI layer checked against the <em>same stale basis the AI used</em> would have confirmed the error rather than caught it.</p>
+  <p class="lead" style="color:var(--accent)">Verification only works when the data is fresher than the model.</p>
+  <p class="dim" style="font-size:13.5px;margin-top:18px">Two larger errors were caught before modelling began and are written up in full: the i3 Verticals misclassification, and MeridianLink’s dead ticker. Both came from the same habit — probe the universe empirically before designing around it.</p>
+</div></section>
+
+<!-- 12 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">11 · Ranking</div>
+  <h2>A company cannot rank highly on numbers we don’t trust</h2>
+  <p class="mono" style="font-size:14px;color:var(--ink)">score = (0.35·value + 0.30·quality + 0.20·growth − 0.15·risk) × <span style="color:var(--accent)">confidence</span></p>
+  <p style="margin-top:14px">Percentile-ranked <strong>within sub-sector</strong>, so the output is always “cheap for a payments company”, never “cheap versus a software company”. The confidence factor is derived from the quality flags on each name and is the part that does the work.</p>
+  <div class="tw" style="margin:20px 0">
+    <table><thead><tr><th>Name</th><th>Value pct</th><th>Quality</th><th>Growth</th><th>Raw</th><th>Confidence</th><th>Final</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="tk">MITK</td><td>0.83</td><td>0.92</td><td>0.33</td><td>0.581</td><td>0.90</td><td>0.523</td></tr>
+      <tr><td class="tk">NCNO</td><td>0.67</td><td>0.67</td><td>0.67</td><td>0.49</td><td>1.00</td><td>0.49</td></tr>
+      <tr><td class="tk">PMTS</td><td>0.57</td><td>0.62</td><td>0.75</td><td>0.48</td><td>0.90</td><td>0.43</td></tr>
+      <tr><td class="tk">PRTH</td><td>0.71</td><td>0.62</td><td>0.50</td><td>0.45</td><td>0.90</td><td>0.41</td></tr>
+      <tr style="border-top:1px solid var(--rule)"><td class="tk" style="color:var(--bad)">LPRO</td><td style="color:var(--good);font-weight:600">1.00</td><td>0.25</td><td>0.17</td><td>0.387</td><td style="color:var(--bad);font-weight:600">0.35</td><td style="color:var(--bad);font-weight:600">0.135</td></tr>
+    </tbody>
+    <caption>Open Lending has the best value percentile in the universe and finishes last.</caption></table>
+  </div>
+  <div class="callout"><p><strong>The unconstrained winner is PayPal</strong> — and it is not the recommendation. The mandate is investment/M&amp;A targets; at $45bn PayPal is neither actionable nor under-researched, which is exactly where an AI screen adds least. The <span class="mono">&lt;$5bn</span> mandate filter is an explicit criterion, and both rankings are reported.</p></div>
+</div></section>
+
+<!-- 13 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">12 · Recommendation</div>
+  <h2>Pursue Mitek. Pass Open Lending.</h2>
+  <div class="g2" style="margin:22px 0 24px">
+    <div>
+      <h3 style="color:var(--good)">PURSUE — MITK · $755M</h3>
+      <p style="font-size:14.5px"><strong>3.59× EV/Revenue against a 4.13× peer median</strong> — a 13% discount with the highest quality score in its sub-sector (0.92: 27% EBITDA margin, strong cash conversion). The structure is a declining but very high-margin annuity — mobile cheque-deposit software and its patent estate, licensed to most large US banks — funding a growth option in identity verification.</p>
+    </div>
+    <div>
+      <h3 style="color:var(--bad)">PASS — LPRO · $372M</h3>
+      <p style="font-size:14.5px">Raw score <span class="mono">0.387</span> → confidence-adjusted <span class="mono">0.135</span>, the largest gap in the universe. Revenue is substantially an <strong>accounting estimate</strong> — a profit-share receivable on insured auto loans, revised down hard enough to produce negative revenue quarters. The headline +288% growth is recovery off that collapse; the real trend is −19.6%.</p>
+    </div>
+  </div>
+  <div class="callout bad">
+    <p><strong>The single biggest reason I could be wrong: Mitek’s moat and its risk are the same asset.</strong></p>
+    <p>The thesis rests on the cheque annuity being durable enough to fund the identity transition. If cheque volumes decline faster than modelled, or the patent estate expires or is invalidated, the annuity doesn’t fade — it steps down, and the growth option isn’t yet large enough to absorb it.</p>
+    <p><strong>My screen cannot see this, because everything it measures is trailing.</strong> A 27% trailing margin on a structurally shrinking base looks identical to 27% on a stable one. Mitek has also had delayed filings historically — a governance signal, and a data-integrity risk for a tool that trusts reported figures.</p>
+  </div>
+</div></section>
+
+<!-- 14 -->
+<section class="slide"><div class="inner">
+  <div class="eyebrow">13 · Next</div>
+  <h2>With three more days</h2>
+  <ul class="tight" style="margin:20px 0 24px">
+    <li><strong>SEC EDGAR XBRL as an independent second source.</strong> Every material figure reconciled against the filing, with a variance report. This removes the single largest weakness — everything currently rests on one free API.</li>
+    <li><strong>Segment-level data.</strong> Priority’s Treasury business and Mitek’s identity business <em>are</em> the theses, and consolidated figures hide both.</li>
+    <li><strong>Rate sensitivity as a first-class input.</strong> Payoneer and Priority both earn float income on customer balances. Neither is modelled as rate-exposed, and for Payoneer that is most of the story.</li>
+    <li><strong>Retrieval-grounded AI layer with citations.</strong> Replace recalled knowledge with retrieved filings, collapsing the staleness window from four months to zero.</li>
+    <li><strong>Backtest the confidence gate.</strong> Run the screen on data as of 12 months ago and measure whether the gate actually improved forward returns. Right now it is principled but unvalidated.</li>
+  </ul>
+  <div class="callout"><p><strong>The honest summary of this prototype:</strong> it is good at deciding which numbers not to trust, and it does not yet know anything the filings would tell it. Those are the same problem from two directions.</p></div>
+  <p class="hint">Code · <span class="mono">run.py</span> for the full pipeline, <span class="mono">streamlit run app.py</span> for the demo</p>
+</div></section>
+
+</div>
+
+<script>
+(function(){
+  var deck=document.getElementById('deck'),bar=document.getElementById('bar'),cur=document.getElementById('cur');
+  var slides=Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  document.querySelector('.pager').innerHTML='<b id="cur">1</b> / '+slides.length;
+  cur=document.getElementById('cur');
+  function scroller(){return (deck.scrollHeight>deck.clientHeight+4)?deck:document.scrollingElement;}
+  function update(){
+    var sc=scroller(),top=sc.scrollTop,max=sc.scrollHeight-sc.clientHeight;
+    bar.style.width=(max>0?(top/max*100):0)+'%';
+    var i=0;
+    for(var k=0;k<slides.length;k++){ if(slides[k].getBoundingClientRect().top<=sc.clientHeight*0.45) i=k; }
+    cur.textContent=i+1;
+  }
+  deck.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  document.addEventListener('keydown',function(e){
+    var d=0;
+    if(e.key==='ArrowDown'||e.key==='PageDown'||e.key===' ') d=1;
+    else if(e.key==='ArrowUp'||e.key==='PageUp') d=-1;
+    else return;
+    e.preventDefault();
+    var i=parseInt(cur.textContent,10)-1+d;
+    if(i<0)i=0; if(i>=slides.length)i=slides.length-1;
+    slides[i].scrollIntoView({behavior:'smooth',block:'start'});
+  });
+  update();
+})();
+</script>
