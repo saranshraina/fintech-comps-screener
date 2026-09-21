@@ -1,0 +1,343 @@
+[
+ {
+  "ticker": "PYPL",
+  "id": "PYPL-1",
+  "text": "PayPal is EBITDA-positive",
+  "status": "PASS",
+  "actual": 7287000000.0,
+  "detail": "ebitda = 7.287e+09; claim asserted > 0"
+ },
+ {
+  "ticker": "PYPL",
+  "id": "PYPL-2",
+  "text": "PayPal trades below the payments peer median EV/EBITDA",
+  "status": "PASS",
+  "actual": 6.5595863318237955,
+  "detail": "ev_ebitda = 6.56; claim asserted < 7.26"
+ },
+ {
+  "ticker": "PYPL",
+  "id": "PYPL-3",
+  "text": "Revenue growth has slowed to single digits",
+  "status": "PASS",
+  "actual": 0.04324307324590371,
+  "detail": "rev_growth = 0.04324; claim asserted < 0.1"
+ },
+ {
+  "ticker": "GPN",
+  "id": "GPN-1",
+  "text": "GPN revenue is reported on inconsistent bases across endpoints",
+  "status": "PASS",
+  "detail": "expected flag REVENUE_BASIS_AMBIGUOUS fired",
+  "actual": [
+   "NEGATIVE_EARNINGS",
+   "API_MULTIPLE_DISAGREES",
+   "REVENUE_BASIS_AMBIGUOUS"
+  ]
+ },
+ {
+  "ticker": "GPN",
+  "id": "GPN-2",
+  "text": "GPN is EBITDA-positive",
+  "status": "PASS",
+  "actual": 3816606000.0,
+  "detail": "ebitda = 3.817e+09; claim asserted > 0"
+ },
+ {
+  "ticker": "GPN",
+  "id": "GPN-3",
+  "text": "GPN revenue is growing",
+  "status": "FAIL",
+  "actual": -0.003889880648451305,
+  "detail": "rev_growth = -0.00389; claim asserted > 0"
+ },
+ {
+  "ticker": "FISV",
+  "id": "FISV-1",
+  "text": "Fiserv is a large-cap (>$10bn)",
+  "status": "PASS",
+  "actual": 25094070272.0,
+  "detail": "market_cap = 2.509e+10; claim asserted > 1e+10"
+ },
+ {
+  "ticker": "FISV",
+  "id": "FISV-2",
+  "text": "Fiserv EBITDA margin exceeds 30%",
+  "status": "PASS",
+  "actual": 0.3888622639700949,
+  "detail": "ebitda_margin = 0.3889; claim asserted > 0.3"
+ },
+ {
+  "ticker": "FISV",
+  "id": "FISV-3",
+  "text": "Fiserv trades at a discount to the payments peer median EV/EBITDA",
+  "status": "PASS",
+  "actual": 6.583567940842987,
+  "detail": "ev_ebitda = 6.584; claim asserted < 7.26"
+ },
+ {
+  "ticker": "EVTC",
+  "id": "EVTC-1",
+  "text": "Evertec EBITDA margin exceeds 25%",
+  "status": "PASS",
+  "actual": 0.3472748408391406,
+  "detail": "ebitda_margin = 0.3473; claim asserted > 0.25"
+ },
+ {
+  "ticker": "EVTC",
+  "id": "EVTC-2",
+  "text": "Evertec is profitable on a net income basis",
+  "status": "PASS",
+  "actual": 97578000.0,
+  "detail": "net_income = 9.758e+07; claim asserted > 0"
+ },
+ {
+  "ticker": "PAYO",
+  "id": "PAYO-1",
+  "text": "Payoneer is EBITDA-positive",
+  "status": "PASS",
+  "actual": 188047000.0,
+  "detail": "ebitda = 1.88e+08; claim asserted > 0"
+ },
+ {
+  "ticker": "PAYO",
+  "id": "PAYO-2",
+  "text": "Payoneer trades at a premium to the payments peer median EV/EBITDA",
+  "status": "PASS",
+  "actual": 11.464412875504529,
+  "detail": "ev_ebitda = 11.46; claim asserted > 7.26"
+ },
+ {
+  "ticker": "PAYO",
+  "id": "PAYO-3",
+  "text": "Payoneer is growing faster than the payments peer median",
+  "status": "PASS",
+  "actual": 0.13912355903283524,
+  "detail": "rev_growth = 0.1391; claim asserted > 0.09"
+ },
+ {
+  "ticker": "MQ",
+  "id": "MQ-1",
+  "text": "Marqeta's EBITDA is negative",
+  "status": "FAIL",
+  "actual": 20795000.0,
+  "detail": "ebitda = 2.08e+07; claim asserted < 0"
+ },
+ {
+  "ticker": "MQ",
+  "id": "MQ-2",
+  "text": "Marqeta is growing faster than 20%",
+  "status": "PASS",
+  "actual": 0.23252497559147534,
+  "detail": "rev_growth = 0.2325; claim asserted > 0.2"
+ },
+ {
+  "ticker": "PRTH",
+  "id": "PRTH-1",
+  "text": "Priority is EBITDA-positive",
+  "status": "PASS",
+  "actual": 210814000.0,
+  "detail": "ebitda = 2.108e+08; claim asserted > 0"
+ },
+ {
+  "ticker": "PRTH",
+  "id": "PRTH-2",
+  "text": "Priority carries meaningful net debt",
+  "status": "PASS",
+  "actual": 962166000.0,
+  "detail": "net_debt = 9.622e+08; claim asserted > 0"
+ },
+ {
+  "ticker": "PRTH",
+  "id": "PRTH-3",
+  "text": "Priority is levered above 2.0x net debt / EBITDA",
+  "status": "PASS",
+  "actual": 4.564051723320083,
+  "detail": "leverage = 4.564; claim asserted > 2"
+ },
+ {
+  "ticker": "PRTH",
+  "id": "PRTH-4",
+  "text": "Priority trades below the payments peer median EV/EBITDA",
+  "status": "PASS",
+  "actual": 6.718142058876545,
+  "detail": "ev_ebitda = 6.718; claim asserted < 7.26"
+ },
+ {
+  "ticker": "PMTS",
+  "id": "PMTS-1",
+  "text": "CPI Card Group is EBITDA-positive",
+  "status": "PASS",
+  "actual": 79612000.0,
+  "detail": "ebitda = 7.961e+07; claim asserted > 0"
+ },
+ {
+  "ticker": "PMTS",
+  "id": "PMTS-2",
+  "text": "CPI has a lower EBITDA margin than the payments peer median (hardware economics)",
+  "status": "PASS",
+  "actual": 0.13555385665807948,
+  "detail": "ebitda_margin = 0.1356; claim asserted < 0.22"
+ },
+ {
+  "ticker": "PMTS",
+  "id": "PMTS-3",
+  "text": "CPI is a micro-cap below $300m",
+  "status": "PASS",
+  "actual": 279830432.0,
+  "detail": "market_cap = 2.798e+08; claim asserted < 3e+08"
+ },
+ {
+  "ticker": "JKHY",
+  "id": "JKHY-1",
+  "text": "Jack Henry EBITDA margin exceeds 25%",
+  "status": "PASS",
+  "actual": 0.34249314163987515,
+  "detail": "ebitda_margin = 0.3425; claim asserted > 0.25"
+ },
+ {
+  "ticker": "JKHY",
+  "id": "JKHY-2",
+  "text": "Jack Henry is profitable",
+  "status": "PASS",
+  "actual": 502775000.0,
+  "detail": "net_income = 5.028e+08; claim asserted > 0"
+ },
+ {
+  "ticker": "JKHY",
+  "id": "JKHY-3",
+  "text": "Jack Henry grows slower than 15%",
+  "status": "PASS",
+  "actual": 0.0711707380326092,
+  "detail": "rev_growth = 0.07117; claim asserted < 0.15"
+ },
+ {
+  "ticker": "QTWO",
+  "id": "QTWO-1",
+  "text": "Q2 is now EBITDA-positive",
+  "status": "PASS",
+  "actual": 152171000.0,
+  "detail": "ebitda = 1.522e+08; claim asserted > 0"
+ },
+ {
+  "ticker": "QTWO",
+  "id": "QTWO-2",
+  "text": "Q2 grows faster than the FI-software peer median",
+  "status": "PASS",
+  "actual": 0.1412061499230397,
+  "detail": "rev_growth = 0.1412; claim asserted > 0.09"
+ },
+ {
+  "ticker": "NCNO",
+  "id": "NCNO-1",
+  "text": "nCino is EBITDA-positive",
+  "status": "PASS",
+  "actual": 92506000.0,
+  "detail": "ebitda = 9.251e+07; claim asserted > 0"
+ },
+ {
+  "ticker": "NCNO",
+  "id": "NCNO-2",
+  "text": "nCino trades at a premium EV/Revenue versus the FI-software median",
+  "status": "FAIL",
+  "actual": 4.012071508925759,
+  "detail": "ev_revenue = 4.012; claim asserted > 4.13"
+ },
+ {
+  "ticker": "ALKT",
+  "id": "ALKT-1",
+  "text": "Alkami is not yet meaningfully EBITDA-positive",
+  "status": "PASS",
+  "actual": -0.0006125861959826597,
+  "detail": "ebitda_margin = -0.0006126; claim asserted < 0.05"
+ },
+ {
+  "ticker": "ALKT",
+  "id": "ALKT-2",
+  "text": "Alkami is the fastest grower in the FI-software group",
+  "status": "PASS",
+  "actual": 0.3288612516437073,
+  "detail": "rev_growth = 0.3289; claim asserted > 0.25"
+ },
+ {
+  "ticker": "ALKT",
+  "id": "ALKT-3",
+  "text": "Alkami trades at a premium EV/Revenue versus the FI-software median",
+  "status": "PASS",
+  "actual": 4.743465514460097,
+  "detail": "ev_revenue = 4.743; claim asserted > 4.13"
+ },
+ {
+  "ticker": "MITK",
+  "id": "MITK-1",
+  "text": "Mitek is EBITDA-positive",
+  "status": "PASS",
+  "actual": 53495000.0,
+  "detail": "ebitda = 5.35e+07; claim asserted > 0"
+ },
+ {
+  "ticker": "MITK",
+  "id": "MITK-2",
+  "text": "Mitek EBITDA margin exceeds 20%",
+  "status": "PASS",
+  "actual": 0.270310557750806,
+  "detail": "ebitda_margin = 0.2703; claim asserted > 0.2"
+ },
+ {
+  "ticker": "MITK",
+  "id": "MITK-3",
+  "text": "Mitek grows slower than 10%",
+  "status": "PASS",
+  "actual": 0.044211223653702,
+  "detail": "rev_growth = 0.04421; claim asserted < 0.1"
+ },
+ {
+  "ticker": "LPRO",
+  "id": "LPRO-1",
+  "text": "Open Lending's reported one-year revenue growth is distorted by a collapsed prior-year base",
+  "status": "PASS",
+  "detail": "expected flag GROWTH_OFF_DISTORTED_BASE fired",
+  "actual": [
+   "LOW_COVERAGE",
+   "NEGATIVE_EARNINGS",
+   "EXTREME_MULTIPLE",
+   "GROWTH_OFF_DISTORTED_BASE"
+  ]
+ },
+ {
+  "ticker": "LPRO",
+  "id": "LPRO-2",
+  "text": "Open Lending's multi-year revenue trend is negative",
+  "status": "PASS",
+  "actual": -0.19634848788962644,
+  "detail": "rev_growth = -0.1963; claim asserted < 0"
+ },
+ {
+  "ticker": "LPRO",
+  "id": "LPRO-3",
+  "text": "Open Lending is currently unprofitable",
+  "status": "PASS",
+  "actual": -5313000.0,
+  "detail": "net_income = -5.313e+06; claim asserted < 0"
+ },
+ {
+  "ticker": "IIIV",
+  "id": "IIIV-1",
+  "text": "i3 Verticals no longer belongs to the sub-sector it was screened into",
+  "status": "PASS",
+  "detail": "expected flag BUSINESS_MODEL_DRIFT fired",
+  "actual": [
+   "BUSINESS_MODEL_DRIFT",
+   "LOW_COVERAGE",
+   "API_MULTIPLE_DISAGREES"
+  ]
+ },
+ {
+  "ticker": "IIIV",
+  "id": "IIIV-2",
+  "text": "i3 Verticals revenue is far below its pre-divestiture scale",
+  "status": "PASS",
+  "actual": 218157000.0,
+  "detail": "revenue = 2.182e+08; claim asserted < 3e+08"
+ }
+]

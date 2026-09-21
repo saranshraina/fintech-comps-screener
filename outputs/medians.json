@@ -1,0 +1,120 @@
+{
+ "Financial-Institution Software": {
+  "ev_revenue": {
+   "median": 4.131190591929805,
+   "mean": 4.010255533070336,
+   "n_used": 6,
+   "n_total": 6,
+   "excluded_tickers": []
+  },
+  "ev_ebitda": {
+   "median": 18.46648215837785,
+   "mean": 19.113663466013676,
+   "n_used": 4,
+   "n_total": 6,
+   "excluded_tickers": [
+    "ALKT",
+    "LPRO"
+   ]
+  },
+  "pe": {
+   "median": 36.65470809813715,
+   "mean": 40.287953162652116,
+   "n_used": 4,
+   "n_total": 6,
+   "excluded_tickers": [
+    "ALKT",
+    "LPRO"
+   ]
+  },
+  "ebitda_margin": {
+   "median": 0.1798292832520087,
+   "mean": 0.19813926677928348,
+   "n_used": 5,
+   "n_total": 6,
+   "excluded_tickers": [
+    "ALKT"
+   ]
+  },
+  "rev_growth": {
+   "median": 0.0856392849001274,
+   "mean": 0.08153478452184622,
+   "n_used": 6,
+   "n_total": 6,
+   "excluded_tickers": []
+  },
+  "rule_of_40": {
+   "median": 31.777860728977817,
+   "mean": 24.654874247191866,
+   "n_used": 6,
+   "n_total": 6,
+   "excluded_tickers": []
+  },
+  "fcf_yield": {
+   "median": 0.049136081785636554,
+   "mean": 0.041131575647952306,
+   "n_used": 6,
+   "n_total": 6,
+   "excluded_tickers": []
+  }
+ },
+ "Merchant Payments & Transaction Processing": {
+  "ev_revenue": {
+   "median": 1.408169923660773,
+   "mean": 1.755646140112124,
+   "n_used": 6,
+   "n_total": 8,
+   "excluded_tickers": [
+    "GPN",
+    "PAYO"
+   ]
+  },
+  "ev_ebitda": {
+   "median": 7.259248957443601,
+   "mean": 8.219938479970336,
+   "n_used": 7,
+   "n_total": 8,
+   "excluded_tickers": [
+    "MQ"
+   ]
+  },
+  "pe": {
+   "median": 13.038934927181778,
+   "mean": 18.66738899039758,
+   "n_used": 6,
+   "n_total": 8,
+   "excluded_tickers": [
+    "GPN",
+    "MQ"
+   ]
+  },
+  "ebitda_margin": {
+   "median": 0.21577942448516876,
+   "mean": 0.23971707839949544,
+   "n_used": 8,
+   "n_total": 8,
+   "excluded_tickers": []
+  },
+  "rev_growth": {
+   "median": 0.0927204737920857,
+   "mean": 0.09542721058405584,
+   "n_used": 8,
+   "n_total": 8,
+   "excluded_tickers": []
+  },
+  "rule_of_40": {
+   "median": 32.56140280466492,
+   "mean": 33.51442889835513,
+   "n_used": 8,
+   "n_total": 8,
+   "excluded_tickers": []
+  },
+  "fcf_yield": {
+   "median": 0.12502520054710942,
+   "mean": 0.13272416661241446,
+   "n_used": 8,
+   "n_total": 8,
+   "excluded_tickers": []
+  }
+ }
+}

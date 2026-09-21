@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+data/cache/
+outputs/_*.pkl
+.DS_Store
+.venv/

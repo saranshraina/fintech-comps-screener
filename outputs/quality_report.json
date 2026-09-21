@@ -1,0 +1,195 @@
+[
+ {
+  "ticker": "IIIV",
+  "company": "i3 Verticals",
+  "severity": "block",
+  "dq_flags": [
+   "BUSINESS_MODEL_DRIFT",
+   "LOW_COVERAGE",
+   "API_MULTIPLE_DISAGREES"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Company no longer operates the business model it was screened into.",
+   "Thinly covered name; fewer analysts, higher risk of stale or unreconciled data.",
+   "Our recomputed multiple differs from the API's precomputed one by >15%; we use ours and show both."
+  ]
+ },
+ {
+  "ticker": "GPN",
+  "company": "Global Payments",
+  "severity": "warn",
+  "dq_flags": [
+   "NEGATIVE_EARNINGS",
+   "API_MULTIPLE_DISAGREES",
+   "REVENUE_BASIS_AMBIGUOUS"
+  ],
+  "suppressed": [
+   "ev_revenue",
+   "pe"
+  ],
+  "detail": [
+   "Net income is negative; P/E is not a meaningful multiple.",
+   "Our recomputed multiple differs from the API's precomputed one by >15%; we use ours and show both.",
+   "Filed-statement revenue and API summary revenue differ by >20%, which in payments almost always means one is GROSS (incl. interchange/network fees passed through to third parties) and the other NET. EV/Revenue is not comparable across bases."
+  ]
+ },
+ {
+  "ticker": "FISV",
+  "company": "Fiserv",
+  "severity": "warn",
+  "dq_flags": [
+   "EV_DERIVED",
+   "API_SUMMARY_DEGRADED"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Enterprise value computed by us (mcap + debt - cash); API did not supply it.",
+   "API summary endpoint returned no revenue/EBITDA; values recovered from filed statements."
+  ]
+ },
+ {
+  "ticker": "EVTC",
+  "company": "Evertec",
+  "severity": "warn",
+  "dq_flags": [
+   "API_MULTIPLE_DISAGREES"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Our recomputed multiple differs from the API's precomputed one by >15%; we use ours and show both."
+  ]
+ },
+ {
+  "ticker": "PAYO",
+  "company": "Payoneer Global",
+  "severity": "warn",
+  "dq_flags": [
+   "API_MULTIPLE_DISAGREES",
+   "REVENUE_BASIS_AMBIGUOUS"
+  ],
+  "suppressed": [
+   "ev_revenue"
+  ],
+  "detail": [
+   "Our recomputed multiple differs from the API's precomputed one by >15%; we use ours and show both.",
+   "Filed-statement revenue and API summary revenue differ by >20%, which in payments almost always means one is GROSS (incl. interchange/network fees passed through to third parties) and the other NET. EV/Revenue is not comparable across bases."
+  ]
+ },
+ {
+  "ticker": "MQ",
+  "company": "Marqeta",
+  "severity": "warn",
+  "dq_flags": [
+   "EXTREME_MULTIPLE",
+   "API_MULTIPLE_DISAGREES"
+  ],
+  "suppressed": [
+   "ev_ebitda",
+   "pe"
+  ],
+  "detail": [
+   "Multiple is a far outlier; likely a trough-earnings or definitional artifact rather than a valuation signal.",
+   "Our recomputed multiple differs from the API's precomputed one by >15%; we use ours and show both."
+  ]
+ },
+ {
+  "ticker": "JKHY",
+  "company": "Jack Henry & Associates",
+  "severity": "warn",
+  "dq_flags": [
+   "API_MULTIPLE_DISAGREES"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Our recomputed multiple differs from the API's precomputed one by >15%; we use ours and show both."
+  ]
+ },
+ {
+  "ticker": "QTWO",
+  "company": "Q2 Holdings",
+  "severity": "warn",
+  "dq_flags": [
+   "API_MULTIPLE_DISAGREES"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Our recomputed multiple differs from the API's precomputed one by >15%; we use ours and show both."
+  ]
+ },
+ {
+  "ticker": "ALKT",
+  "company": "Alkami Technology",
+  "severity": "warn",
+  "dq_flags": [
+   "NEGATIVE_EBITDA",
+   "NEGATIVE_EARNINGS"
+  ],
+  "suppressed": [
+   "ebitda_margin",
+   "ev_ebitda",
+   "pe"
+  ],
+  "detail": [
+   "EBITDA is negative; EV/EBITDA is not a meaningful multiple.",
+   "Net income is negative; P/E is not a meaningful multiple."
+  ]
+ },
+ {
+  "ticker": "LPRO",
+  "company": "Open Lending",
+  "severity": "warn",
+  "dq_flags": [
+   "LOW_COVERAGE",
+   "NEGATIVE_EARNINGS",
+   "EXTREME_MULTIPLE",
+   "GROWTH_OFF_DISTORTED_BASE"
+  ],
+  "suppressed": [
+   "ev_ebitda",
+   "pe"
+  ],
+  "detail": [
+   "Thinly covered name; fewer analysts, higher risk of stale or unreconciled data.",
+   "Net income is negative; P/E is not a meaningful multiple.",
+   "Multiple is a far outlier; likely a trough-earnings or definitional artifact rather than a valuation signal.",
+   "Prior-year revenue was itself collapsed, so the growth rate measures recovery off a distorted base rather than underlying expansion. Multi-year trend used instead."
+  ]
+ },
+ {
+  "ticker": "PRTH",
+  "company": "Priority Technology Holdings",
+  "severity": "info",
+  "dq_flags": [
+   "LOW_COVERAGE"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Thinly covered name; fewer analysts, higher risk of stale or unreconciled data."
+  ]
+ },
+ {
+  "ticker": "PMTS",
+  "company": "CPI Card Group",
+  "severity": "info",
+  "dq_flags": [
+   "LOW_COVERAGE"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Thinly covered name; fewer analysts, higher risk of stale or unreconciled data."
+  ]
+ },
+ {
+  "ticker": "MITK",
+  "company": "Mitek Systems",
+  "severity": "info",
+  "dq_flags": [
+   "LOW_COVERAGE"
+  ],
+  "suppressed": [],
+  "detail": [
+   "Thinly covered name; fewer analysts, higher risk of stale or unreconciled data."
+  ]
+ }
+]

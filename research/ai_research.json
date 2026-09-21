@@ -1,0 +1,187 @@
+{
+  "_meta": {
+    "generated_by": "claude-opus-5 (Claude Code CLI)",
+    "generated_at": "2026-09-20",
+    "model_knowledge_cutoff": "2026-05",
+    "run_date": "2026-09-20",
+    "known_staleness_window_months": 4,
+    "method": "The model was asked to produce, per company: a one-line business model, the key value driver, the principal risk, and a set of MACHINE-CHECKABLE numeric claims. The checkable claims exist so that the qualitative layer can be falsified automatically against the data the pipeline pulled, rather than being taken on trust. See src/verify.py and research/verification_log.md.",
+    "honesty_note": "The model has a May 2026 knowledge cutoff and this was run in September 2026. Any claim about 'recent' events is therefore at least four months stale by construction. Claims that could not be verified against pulled data are marked confidence='unverifiable' and are NOT used in the ranking."
+  },
+
+  "PYPL": {
+    "business_model": "Two-sided network: branded checkout (consumer wallet, higher take rate) plus unbranded Braintree processing (enterprise, low take rate, volume-heavy). Monetises transaction margin dollars, not gross volume.",
+    "value_driver": "Branded checkout share of total volume. Braintree grows TPV but dilutes margin, so mix matters more than headline volume growth.",
+    "key_risk": "Structural disintermediation of the PayPal button by Apple Pay, Shop Pay and bank-rail checkout, which would erode the high-take-rate branded business while the low-margin unbranded business grows.",
+    "checkable_claims": [
+      {"id": "PYPL-1", "text": "PayPal is EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "PYPL-2", "text": "PayPal trades below the payments peer median EV/EBITDA", "field": "ev_ebitda", "op": "<", "value": 7.26},
+      {"id": "PYPL-3", "text": "Revenue growth has slowed to single digits", "field": "rev_growth", "op": "<", "value": 0.10}
+    ],
+    "confidence": "high"
+  },
+
+  "GPN": {
+    "business_model": "Merchant acquiring at scale plus vertical/integrated software POS. Revenue is reported both gross and net of interchange depending on the disclosure, which materially affects apparent margin.",
+    "value_driver": "Integrated/vertical software attach rate, which raises retention and take rate versus commodity acquiring.",
+    "key_risk": "Portfolio reshaping (large divestitures and acquisitions) makes organic growth hard to observe; reported growth is not comparable period to period.",
+    "checkable_claims": [
+      {"id": "GPN-1", "text": "GPN revenue is reported on inconsistent bases across endpoints", "flag_expected": "REVENUE_BASIS_AMBIGUOUS"},
+      {"id": "GPN-2", "text": "GPN is EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "GPN-3", "text": "GPN revenue is growing", "field": "rev_growth", "op": ">", "value": 0.0}
+    ],
+    "confidence": "medium"
+  },
+
+  "FISV": {
+    "business_model": "Two engines: Merchant Solutions (Clover SMB POS) and Financial Solutions (bank core processing, card issuing). Clover is the growth narrative; bank processing is the cash engine.",
+    "value_driver": "Clover gross payment volume and software-attach revenue per merchant.",
+    "key_risk": "The equity de-rated severely after repeated guidance revisions; the open question is whether Clover growth was pulled forward rather than created. A low multiple on impaired credibility is a value trap risk, not automatically value.",
+    "checkable_claims": [
+      {"id": "FISV-1", "text": "Fiserv is a large-cap (>$10bn)", "field": "market_cap", "op": ">", "value": 10000000000},
+      {"id": "FISV-2", "text": "Fiserv EBITDA margin exceeds 30%", "field": "ebitda_margin", "op": ">", "value": 0.30},
+      {"id": "FISV-3", "text": "Fiserv trades at a discount to the payments peer median EV/EBITDA", "field": "ev_ebitda", "op": "<", "value": 7.26}
+    ],
+    "confidence": "medium"
+  },
+
+  "EVTC": {
+    "business_model": "Vertically integrated processor for Puerto Rico and Latin America: owns switch, merchant acquiring and bank core processing in markets with few credible alternatives.",
+    "value_driver": "Entrenched government and bank contracts in Puerto Rico produce unusually high switching costs for a company of this size.",
+    "key_risk": "Geographic concentration. Puerto Rico fiscal/political risk and LatAm FX translate directly into earnings volatility.",
+    "checkable_claims": [
+      {"id": "EVTC-1", "text": "Evertec EBITDA margin exceeds 25%", "field": "ebitda_margin", "op": ">", "value": 0.25},
+      {"id": "EVTC-2", "text": "Evertec is profitable on a net income basis", "field": "net_income", "op": ">", "value": 0}
+    ],
+    "confidence": "medium"
+  },
+
+  "PAYO": {
+    "business_model": "Cross-border payouts and multi-currency accounts for SMB marketplace sellers. Two revenue streams: transaction fees AND interest earned on held customer balances.",
+    "value_driver": "Customer funds held. A material share of profit is net interest income, so earnings are levered to policy rates rather than to payments volume.",
+    "key_risk": "Rate sensitivity is under-appreciated. A rate-cutting cycle compresses the float income that flatters current EBITDA, while the transaction business alone would not support the multiple.",
+    "checkable_claims": [
+      {"id": "PAYO-1", "text": "Payoneer is EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "PAYO-2", "text": "Payoneer trades at a premium to the payments peer median EV/EBITDA", "field": "ev_ebitda", "op": ">", "value": 7.26},
+      {"id": "PAYO-3", "text": "Payoneer is growing faster than the payments peer median", "field": "rev_growth", "op": ">", "value": 0.09}
+    ],
+    "confidence": "medium"
+  },
+
+  "MQ": {
+    "business_model": "Card-issuing infrastructure via API. Sells to fintechs and platforms that need to issue cards without becoming a bank.",
+    "value_driver": "Platform volume, historically dominated by one very large customer.",
+    "key_risk": "Customer concentration. Renewal terms with its largest customer have repriced take rate downward before and can again.",
+    "checkable_claims": [
+      {"id": "MQ-1", "text": "Marqeta's EBITDA is negative", "field": "ebitda", "op": "<", "value": 0},
+      {"id": "MQ-2", "text": "Marqeta is growing faster than 20%", "field": "rev_growth", "op": ">", "value": 0.20}
+    ],
+    "confidence": "low"
+  },
+
+  "PRTH": {
+    "business_model": "Three segments: SMB merchant acquiring, B2B payables automation, and 'Passport' embedded banking/treasury for enterprise clients. The Treasury segment is effectively banking-as-a-service and earns interest on held deposits.",
+    "value_driver": "Mix shift from commodity SMB acquiring toward Treasury/embedded finance, which carries higher margin and earns float.",
+    "key_risk": "Leverage. This is a debt-funded rollup; the equity is a thin slice of enterprise value, so small EBITDA misses move the equity violently. Float income is also rate-sensitive.",
+    "checkable_claims": [
+      {"id": "PRTH-1", "text": "Priority is EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "PRTH-2", "text": "Priority carries meaningful net debt", "field": "net_debt", "op": ">", "value": 0},
+      {"id": "PRTH-3", "text": "Priority is levered above 2.0x net debt / EBITDA", "field": "leverage", "op": ">", "value": 2.0},
+      {"id": "PRTH-4", "text": "Priority trades below the payments peer median EV/EBITDA", "field": "ev_ebitda", "op": "<", "value": 7.26}
+    ],
+    "confidence": "medium"
+  },
+
+  "PMTS": {
+    "business_model": "Manufactures and personalises physical payment cards for US issuers, plus related instant-issuance hardware and software.",
+    "value_driver": "Card refresh cycles and contactless/metal card mix. This is a manufacturing business wearing a payments label.",
+    "key_risk": "Structurally challenged end market: physical card volumes face secular decline from digital wallets and tokenisation. Also customer-concentrated and input-cost exposed.",
+    "checkable_claims": [
+      {"id": "PMTS-1", "text": "CPI Card Group is EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "PMTS-2", "text": "CPI has a lower EBITDA margin than the payments peer median (hardware economics)", "field": "ebitda_margin", "op": "<", "value": 0.22},
+      {"id": "PMTS-3", "text": "CPI is a micro-cap below $300m", "field": "market_cap", "op": "<", "value": 300000000}
+    ],
+    "confidence": "low"
+  },
+
+  "JKHY": {
+    "business_model": "Core processing for US community banks and credit unions, sold on long contracts with high switching costs, plus payments and digital modules attached to the core.",
+    "value_driver": "Core contract renewals and module attach. Core replacement is rare, so the installed base is the moat.",
+    "key_risk": "Slow growth. The moat is real but the end market (number of US community banks) is consolidating structurally, capping unit growth.",
+    "checkable_claims": [
+      {"id": "JKHY-1", "text": "Jack Henry EBITDA margin exceeds 25%", "field": "ebitda_margin", "op": ">", "value": 0.25},
+      {"id": "JKHY-2", "text": "Jack Henry is profitable", "field": "net_income", "op": ">", "value": 0},
+      {"id": "JKHY-3", "text": "Jack Henry grows slower than 15%", "field": "rev_growth", "op": "<", "value": 0.15}
+    ],
+    "confidence": "high"
+  },
+
+  "QTWO": {
+    "business_model": "Digital banking front-end (retail and commercial online/mobile) sold to regional banks and credit unions on multi-year subscription contracts.",
+    "value_driver": "Registered-user growth within existing FI customers plus cross-sell of lending/relationship pricing modules.",
+    "key_risk": "Sits on top of someone else's core. Q2 depends on core providers for integration and is exposed if a core vendor bundles a competing front-end.",
+    "checkable_claims": [
+      {"id": "QTWO-1", "text": "Q2 is now EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "QTWO-2", "text": "Q2 grows faster than the FI-software peer median", "field": "rev_growth", "op": ">", "value": 0.09}
+    ],
+    "confidence": "medium"
+  },
+
+  "NCNO": {
+    "business_model": "Cloud loan origination, onboarding and account opening for banks, historically built on the Salesforce platform.",
+    "value_driver": "Seat and module expansion inside existing bank customers; international expansion.",
+    "key_risk": "Platform dependency on Salesforce affects gross margin and pricing power. Bank IT budgets are also cyclical with credit conditions.",
+    "checkable_claims": [
+      {"id": "NCNO-1", "text": "nCino is EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "NCNO-2", "text": "nCino trades at a premium EV/Revenue versus the FI-software median", "field": "ev_revenue", "op": ">", "value": 4.13}
+    ],
+    "confidence": "medium"
+  },
+
+  "ALKT": {
+    "business_model": "Cloud-native digital banking platform sold primarily to credit unions and community banks, priced per registered user.",
+    "value_driver": "Registered users and ARPU expansion. Growth is bought with heavy sales and marketing spend, which suppresses GAAP profitability by design.",
+    "key_risk": "Profitability is a promise, not a fact. The equity is valued on revenue, so any deceleration re-rates it hard with no earnings floor to catch it.",
+    "checkable_claims": [
+      {"id": "ALKT-1", "text": "Alkami is not yet meaningfully EBITDA-positive", "field": "ebitda_margin", "op": "<", "value": 0.05},
+      {"id": "ALKT-2", "text": "Alkami is the fastest grower in the FI-software group", "field": "rev_growth", "op": ">", "value": 0.25},
+      {"id": "ALKT-3", "text": "Alkami trades at a premium EV/Revenue versus the FI-software median", "field": "ev_revenue", "op": ">", "value": 4.13}
+    ],
+    "confidence": "medium"
+  },
+
+  "MITK": {
+    "business_model": "Two businesses in one shell: (1) mobile check deposit software and the associated patent estate, licensed to nearly every large US bank; (2) identity verification / fraud detection.",
+    "value_driver": "The check-deposit franchise is a quasi-annuity with very high margin. The identity business is the growth option.",
+    "key_risk": "The annuity is tied to paper cheque volumes, which decline structurally. The company has also had a history of delayed financial filings, which is a governance and data-integrity red flag for exactly this kind of screen.",
+    "checkable_claims": [
+      {"id": "MITK-1", "text": "Mitek is EBITDA-positive", "field": "ebitda", "op": ">", "value": 0},
+      {"id": "MITK-2", "text": "Mitek EBITDA margin exceeds 20%", "field": "ebitda_margin", "op": ">", "value": 0.20},
+      {"id": "MITK-3", "text": "Mitek grows slower than 10%", "field": "rev_growth", "op": "<", "value": 0.10}
+    ],
+    "confidence": "low"
+  },
+
+  "LPRO": {
+    "business_model": "'Lenders Protection' analytics platform that lets credit unions and banks underwrite near-prime auto loans, with default risk insured by third-party carriers. Open Lending takes a fee plus a share of the insurance profit.",
+    "value_driver": "Certified loan volume, and critically the profit-share receivable, which is an ESTIMATE of future insurance profits recognised as revenue today.",
+    "key_risk": "Revenue is not cash. The profit-share component is an accounting estimate that has been revised downward severely, producing negative revenue quarters. This is the single least reliable revenue line in the universe.",
+    "checkable_claims": [
+      {"id": "LPRO-1", "text": "Open Lending's reported one-year revenue growth is distorted by a collapsed prior-year base", "flag_expected": "GROWTH_OFF_DISTORTED_BASE"},
+      {"id": "LPRO-2", "text": "Open Lending's multi-year revenue trend is negative", "field": "rev_growth", "op": "<", "value": 0.0},
+      {"id": "LPRO-3", "text": "Open Lending is currently unprofitable", "field": "net_income", "op": "<", "value": 0}
+    ],
+    "confidence": "low"
+  },
+
+  "IIIV": {
+    "business_model": "Enterprise software for PUBLIC SECTOR entities: courts, e-filing, permitting, utilities billing, education. Embedded payments are attached to that software, but the customer is government, not a financial institution.",
+    "value_driver": "Sticky multi-year public-sector contracts with very low churn and slow procurement cycles.",
+    "key_risk": "For THIS screen the risk is classification, not operations: it was selected as a payments comparable and is no longer one. Including it would contaminate both peer sets.",
+    "checkable_claims": [
+      {"id": "IIIV-1", "text": "i3 Verticals no longer belongs to the sub-sector it was screened into", "flag_expected": "BUSINESS_MODEL_DRIFT"},
+      {"id": "IIIV-2", "text": "i3 Verticals revenue is far below its pre-divestiture scale", "field": "revenue", "op": "<", "value": 300000000}
+    ],
+    "confidence": "medium"
+  }
+}
