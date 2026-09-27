@@ -12,8 +12,8 @@
   "id": "PYPL-2",
   "text": "PayPal trades below the payments peer median EV/EBITDA",
   "status": "PASS",
-  "actual": 6.5595863318237955,
-  "detail": "ev_ebitda = 6.56; claim asserted < 7.26"
+  "actual": 6.868336032935364,
+  "detail": "ev_ebitda = 6.868; claim asserted < 7.26"
  },
  {
   "ticker": "PYPL",
@@ -56,8 +56,8 @@
   "id": "FISV-1",
   "text": "Fiserv is a large-cap (>$10bn)",
   "status": "PASS",
-  "actual": 25094070272.0,
-  "detail": "market_cap = 2.509e+10; claim asserted > 1e+10"
+  "actual": 24716517376.0,
+  "detail": "market_cap = 2.472e+10; claim asserted > 1e+10"
  },
  {
   "ticker": "FISV",
@@ -72,8 +72,8 @@
   "id": "FISV-3",
   "text": "Fiserv trades at a discount to the payments peer median EV/EBITDA",
   "status": "PASS",
-  "actual": 6.583567940842987,
-  "detail": "ev_ebitda = 6.584; claim asserted < 7.26"
+  "actual": 6.537036896228741,
+  "detail": "ev_ebitda = 6.537; claim asserted < 7.26"
  },
  {
   "ticker": "EVTC",
@@ -104,8 +104,8 @@
   "id": "PAYO-2",
   "text": "Payoneer trades at a premium to the payments peer median EV/EBITDA",
   "status": "PASS",
-  "actual": 11.464412875504529,
-  "detail": "ev_ebitda = 11.46; claim asserted > 7.26"
+  "actual": 11.536490175328508,
+  "detail": "ev_ebitda = 11.54; claim asserted > 7.26"
  },
  {
   "ticker": "PAYO",
@@ -159,9 +159,9 @@
   "ticker": "PRTH",
   "id": "PRTH-4",
   "text": "Priority trades below the payments peer median EV/EBITDA",
-  "status": "PASS",
-  "actual": 6.718142058876545,
-  "detail": "ev_ebitda = 6.718; claim asserted < 7.26"
+  "status": "FAIL",
+  "actual": 7.480703634483478,
+  "detail": "ev_ebitda = 7.481; claim asserted < 7.26"
  },
  {
   "ticker": "PMTS",
@@ -184,8 +184,8 @@
   "id": "PMTS-3",
   "text": "CPI is a micro-cap below $300m",
   "status": "PASS",
-  "actual": 279830432.0,
-  "detail": "market_cap = 2.798e+08; claim asserted < 3e+08"
+  "actual": 286901568.0,
+  "detail": "market_cap = 2.869e+08; claim asserted < 3e+08"
  },
  {
   "ticker": "JKHY",
@@ -240,8 +240,8 @@
   "id": "NCNO-2",
   "text": "nCino trades at a premium EV/Revenue versus the FI-software median",
   "status": "FAIL",
-  "actual": 4.012071508925759,
-  "detail": "ev_revenue = 4.012; claim asserted > 4.13"
+  "actual": 3.733391068455461,
+  "detail": "ev_revenue = 3.733; claim asserted > 4.13"
  },
  {
   "ticker": "ALKT",
@@ -263,9 +263,9 @@
   "ticker": "ALKT",
   "id": "ALKT-3",
   "text": "Alkami trades at a premium EV/Revenue versus the FI-software median",
-  "status": "PASS",
-  "actual": 4.743465514460097,
-  "detail": "ev_revenue = 4.743; claim asserted > 4.13"
+  "status": "FAIL",
+  "actual": 3.579550173872382,
+  "detail": "ev_revenue = 3.58; claim asserted > 4.13"
  },
  {
   "ticker": "MITK",

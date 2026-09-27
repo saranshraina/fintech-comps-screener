@@ -144,16 +144,32 @@ def main():
     pursue, passer, uncon = SC.recommend(sc_df)
     print("\n" + "-" * 78)
     print(f"Unconstrained top score : {uncon.ticker} ({uncon.company}, "
-          f"${uncon.market_cap/1e9:.1f}bn) score {uncon.score:.3f}")
-    print(f"  -> NOT the recommendation. The mandate is investment/M&A targets;")
-    print(f"     at ${uncon.market_cap/1e9:.0f}bn it is neither actionable nor under-researched,")
-    print(f"     which is exactly where an AI screen adds the least value.")
+          f"${uncon.market_cap/1e9:.2f}bn) score {uncon.score:.3f}")
+    if uncon.ticker == pursue.ticker:
+        print(f"  -> Also the top name inside the mandate "
+              f"(< ${SC.MANDATE_MAX_MARKET_CAP/1e9:.0f}bn), so the filter is not binding "
+              f"on this run.")
+    else:
+        print(f"  -> NOT the recommendation. The mandate is investment/M&A targets;")
+        print(f"     at ${uncon.market_cap/1e9:.0f}bn it is neither actionable nor "
+              f"under-researched,")
+        print(f"     which is exactly where an AI screen adds the least value.")
     print(f"\nPURSUE : {pursue.ticker}  {pursue.company}  (${pursue.market_cap/1e9:.2f}bn, {pursue.cap_tier}-cap)")
     print(f"         score {pursue.score:.3f} = raw {pursue.score_raw:.3f} x confidence {pursue.confidence:.2f}")
     print(f"         value {pursue.s_value:.2f} | quality {pursue.s_quality:.2f} | "
           f"growth {pursue.s_growth:.2f} | risk {pursue.s_risk:.2f}")
     print(f"         {pursue.primary_multiple:.2f}x vs peer median -> "
-          f"{pursue.discount_to_peer*100:+.0f}% discount")
+          f"{pursue.discount_to_peer*100:+.1f}% discount")
+    if pursue.discount_to_peer is not None and abs(pursue.discount_to_peer) < 0.05:
+        print(f"         ! LOW CONVICTION: a {pursue.discount_to_peer*100:+.1f}% discount is "
+              f"inside the noise of this dataset.")
+        print(f"           The screen is not finding meaningful value in this sub-sector "
+              f"right now;")
+        print(f"           it is ranking names that are all priced within a few percent "
+              f"of each other.")
+    pl, sb, det = SC.confidence_breakdown(pursue)
+    print(f"         confidence {pursue.confidence:.2f} = 1.00 - {pl:.2f} plumbing "
+          f"- {sb:.2f} substance")
     print(f"\nPASS   : {passer.ticker}  {passer.company}  (${passer.market_cap/1e9:.2f}bn)")
     print(f"         raw screen score {passer.score_raw:.3f} -> confidence-adjusted {passer.score:.3f}")
     print(f"         the data flatters this name by {passer.score_raw - passer.score:.3f} "

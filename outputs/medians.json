@@ -1,15 +1,15 @@
 {
  "Financial-Institution Software": {
   "ev_revenue": {
-   "median": 4.131190591929805,
-   "mean": 4.010255533070336,
+   "median": 3.769973722421887,
+   "mean": 3.74080728435816,
    "n_used": 6,
    "n_total": 6,
    "excluded_tickers": []
   },
   "ev_ebitda": {
-   "median": 18.46648215837785,
-   "mean": 19.113663466013676,
+   "median": 18.326006079667476,
+   "mean": 18.432779177311506,
    "n_used": 4,
    "n_total": 6,
    "excluded_tickers": [
@@ -18,8 +18,8 @@
    ]
   },
   "pe": {
-   "median": 36.65470809813715,
-   "mean": 40.287953162652116,
+   "median": 36.70457684711077,
+   "mean": 38.77640824949904,
    "n_used": 4,
    "n_total": 6,
    "excluded_tickers": [
@@ -51,8 +51,8 @@
    "excluded_tickers": []
   },
   "fcf_yield": {
-   "median": 0.049136081785636554,
-   "mean": 0.041131575647952306,
+   "median": 0.051445925811770446,
+   "mean": 0.043909336159576366,
    "n_used": 6,
    "n_total": 6,
    "excluded_tickers": []
@@ -60,8 +60,8 @@
  },
  "Merchant Payments & Transaction Processing": {
   "ev_revenue": {
-   "median": 1.408169923660773,
-   "mean": 1.755646140112124,
+   "median": 1.5792299295874441,
+   "mean": 1.8333062974183376,
    "n_used": 6,
    "n_total": 8,
    "excluded_tickers": [
@@ -70,8 +70,8 @@
    ]
   },
   "ev_ebitda": {
-   "median": 7.259248957443601,
-   "mean": 8.219938479970336,
+   "median": 7.480703634483478,
+   "mean": 8.416495452720913,
    "n_used": 7,
    "n_total": 8,
    "excluded_tickers": [
@@ -79,8 +79,8 @@
    ]
   },
   "pe": {
-   "median": 13.038934927181778,
-   "mean": 18.66738899039758,
+   "median": 14.340964052057867,
+   "mean": 19.383982076124493,
    "n_used": 6,
    "n_total": 8,
    "excluded_tickers": [
@@ -110,8 +110,8 @@
    "excluded_tickers": []
   },
   "fcf_yield": {
-   "median": 0.12502520054710942,
-   "mean": 0.13272416661241446,
+   "median": 0.11728845029133808,
+   "mean": 0.12317653322213158,
    "n_used": 8,
    "n_total": 8,
    "excluded_tickers": []

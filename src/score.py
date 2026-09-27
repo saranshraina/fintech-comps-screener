@@ -42,17 +42,43 @@ WEIGHTS = dict(value=0.35, quality=0.30, growth=0.20, risk=-0.15)
 # say which one drives the recommendation.
 MANDATE_MAX_MARKET_CAP = 5e9
 
-SEVERITY_PENALTY = {"clean": 0.0, "info": 0.05, "warn": 0.20, "block": 1.0}
-FLAG_PENALTY = {
-    "REVENUE_BASIS_AMBIGUOUS": 0.15,
+# Severity is DERIVED from the flags below, so penalising both double-counts.
+# Only the blocking case is handled here; everything else is priced per flag.
+SEVERITY_PENALTY = {"clean": 0.0, "info": 0.0, "warn": 0.0, "block": 1.0}
+
+# Two kinds of data-quality problem, which earlier versions of this file wrongly
+# priced the same:
+#
+#   PLUMBING  - the API failed to serve a value that the filed statements
+#               contain. The fallback chain recovered it and the provenance
+#               column proves where it came from. The NUMBER IS FINE. Charging
+#               a large penalty here punishes a company for its data vendor's
+#               outage, and it was suppressing Fiserv -- the highest raw score
+#               in the universe -- for a problem the pipeline had already solved.
+#
+#   SUBSTANCE - the reported number does not mean what it appears to mean.
+#               Growth measured off a written-down base, earnings inflated by a
+#               one-time gain, revenue on an incomparable basis. No amount of
+#               plumbing fixes these, because the figure itself is misleading.
+#
+# Only SUBSTANCE flags should meaningfully move confidence.
+PLUMBING_PENALTY = {
+    "EV_DERIVED": 0.02,
+    "API_SUMMARY_DEGRADED": 0.03,
+    "API_MULTIPLE_DISAGREES": 0.02,
+}
+SUBSTANCE_PENALTY = {
     "GROWTH_OFF_DISTORTED_BASE": 0.25,
-    "EXTREME_MULTIPLE": 0.15,
     "ONE_TIME_GAIN_SUSPECT": 0.25,
-    "NEGATIVE_EBITDA": 0.10,
-    "API_SUMMARY_DEGRADED": 0.10,
     "STALE_FISCAL_PERIOD": 0.20,
+    "REVENUE_BASIS_AMBIGUOUS": 0.15,
+    "EXTREME_MULTIPLE": 0.15,
+    "IMPLAUSIBLE_MARGIN": 0.15,
+    "NEGATIVE_EBITDA": 0.10,
+    "NEGATIVE_EARNINGS": 0.05,
     "LOW_COVERAGE": 0.05,
 }
+FLAG_PENALTY = {**PLUMBING_PENALTY, **SUBSTANCE_PENALTY}
 
 
 def _pct(series):
@@ -62,11 +88,27 @@ def _pct(series):
 
 
 def confidence(row):
-    """0-1 multiplier. Starts at 1 and is eroded by each data-quality flag."""
-    c = 1.0 - SEVERITY_PENALTY.get(row.get("severity"), 0.2)
+    """0-1 multiplier. Starts at 1 and is eroded by each data-quality flag.
+
+    Plumbing flags cost almost nothing because the fallback chain recovered the
+    value and provenance records the source. Substance flags cost real weight
+    because the reported figure is misleading regardless of where it came from.
+    """
+    c = 1.0 - SEVERITY_PENALTY.get(row.get("severity"), 0.0)
     for f in (row.get("dq_flags") or []):
         c -= FLAG_PENALTY.get(f, 0.0)
     return float(np.clip(c, 0.0, 1.0))
+
+
+def confidence_breakdown(row):
+    """Explain a confidence score: (plumbing_cost, substance_cost, detail)."""
+    plumb = sum(PLUMBING_PENALTY.get(f, 0.0) for f in (row.get("dq_flags") or []))
+    subst = sum(SUBSTANCE_PENALTY.get(f, 0.0) for f in (row.get("dq_flags") or []))
+    detail = [(f, "plumbing" if f in PLUMBING_PENALTY else
+                  "substance" if f in SUBSTANCE_PENALTY else "unpriced",
+               FLAG_PENALTY.get(f, 0.0))
+              for f in (row.get("dq_flags") or [])]
+    return plumb, subst, detail
 
 
 def score(df, medians):

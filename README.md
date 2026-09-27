@@ -19,13 +19,22 @@ streamlit run app.py      # interactive demo
 |---|---|
 | **Sub-sectors** | Merchant Payments & Transaction Processing (8) · Financial-Institution Software (7) |
 | **Small / under-covered names** | PRTH, PMTS, MITK, LPRO, IIIV — 5 of 15 |
-| **Recommendation — PURSUE** | **MITK** (Mitek Systems, $0.75bn) |
-| **Recommendation — PASS** | **LPRO** (Open Lending, $0.37bn) |
-| **AI claims auto-verified** | 41 · **38 pass / 3 fail** |
+| **Recommendation — PURSUE** | **NCNO** (nCino, $2.05bn) — *low conviction, see below* |
+| **Recommendation — PASS** | **LPRO** (Open Lending, $0.37bn) — high conviction |
+| **AI claims auto-verified** | 41 · **37 pass / 4 fail** |
+| **Data as of** | 26 September 2026 |
 
-The headline finding: **the name that screens cheapest in the entire universe
-is the one we pass on.** Open Lending has the best value percentile of any
-company here (1.00). The data-confidence layer drops it to last place.
+Two headline findings:
+
+**1. The name that screens cheapest in the universe is the one we pass on.**
+Open Lending has the best value percentile of any company here (1.00). The
+data-confidence layer drops it to last place.
+
+**2. Nothing in this universe is meaningfully cheap right now, and the tool says
+so.** The winning name trades at a **+1.0% discount** to its peer median, which
+is inside the noise of this dataset. FI-software multiples cluster between
+3.17× and 4.10×. The screen flags its own output as low-conviction rather than
+dressing up noise as a recommendation.
 
 ---
 
@@ -64,6 +73,17 @@ Four things broke. All four were found by the tool, not assumed.
 | 2 | **MeridianLink** — ticker 404s, company was taken private | Caught by empirical probe *before* modelling; replaced with a verified live name |
 | 3 | **i3 Verticals** — divested merchant services, now sells software to **courts and municipalities** | Excluded from medians with a written reason |
 | 4 | **Open Lending** — reports **+288% revenue growth** | Growth measured off a collapsed base; substituted the multi-year trend of **−19.6%** |
+
+### Two kinds of bad data
+
+An early version of the confidence model charged Fiserv the same penalty as Open
+Lending. That was wrong, and correcting it changed the recommendation:
+
+- **Plumbing** (costs ~0.02) — the API failed to serve a value the filed
+  statements contain. The fallback recovered it, provenance proves the source.
+  **The number is fine.**
+- **Substance** (costs 0.15–0.25) — the reported figure does not mean what it
+  appears to mean. No amount of plumbing fixes it. **The number lies.**
 
 ### The three-tier policy
 
@@ -130,7 +150,7 @@ key risk) — but every entry also carries **machine-checkable claims**, either 
 numeric assertion about a computed field or an assertion that a named
 data-quality flag will fire. `src/verify.py` evaluates all 41 on every run.
 
-**Result: 38 pass, 3 fail.** The failures are real and reproducible:
+**Result: 37 pass, 4 fail.** The failures are real and reproducible:
 
 - **`MQ-1`** — the model asserted Marqeta's EBITDA is negative. It was, on
   FY2025. **TTM EBITDA is +$20.8M.** The model was reporting correctly as of
@@ -138,9 +158,12 @@ data-quality flag will fire. `src/verify.py` evaluates all 41 on every run.
   works when the data is fresher than the model.*
 - **`GPN-3`** — asserted Global Payments' revenue is growing. It is **−0.4%**.
   A sign error that would have propagated into a DCF as a permanent assumption.
-- **`NCNO-2`** — asserted nCino trades at a premium. It is **4.01× vs a 4.13×
-  median** — a slight discount. Qualitatively plausible, quantitatively false,
-  and it would survive a human skim.
+- **`NCNO-2` and `ALKT-3`** — asserted nCino and Alkami trade at premiums.
+  Both trade at discounts (3.73× and 3.58× against a 3.77× median).
+  Qualitatively plausible, quantitatively false, and they would survive a human
+  skim. Note that `ALKT-3` *passed* on 20 September and *failed* on the 26th:
+  the peer median moved beneath it. A verification harness is only as current as
+  its last run.
 
 Full write-up, including the two larger errors caught before modelling began
 (i3 Verticals, MeridianLink): **[`research/verification_log.md`](research/verification_log.md)**.
@@ -163,14 +186,18 @@ factor** derived from the quality flags on that name.
 The confidence gate is the part that matters. A company cannot rank highly on
 numbers we do not trust.
 
-### PURSUE — Mitek Systems (MITK, $0.75bn)
+### PURSUE — nCino (NCNO, $2.05bn) — low conviction
 
-Score 0.523 = raw 0.581 × confidence 0.90. Trades at **3.59× EV/Revenue vs a
-4.13× peer median** (13% discount) with the **highest quality score in its
-sub-sector** (0.92: 27% EBITDA margin plus strong FCF conversion). The
-structure is a declining but very high-margin annuity — mobile cheque deposit
-software and its patent estate, licensed to most large US banks — funding a
-growth option in identity verification.
+Score 0.517 = raw 0.517 × confidence **1.00**. The best-rounded name inside the
+mandate (value 0.67, quality 0.75, growth 0.67) and the **only company in the
+universe carrying zero data-quality flags**. Cloud loan origination and
+onboarding sold to banks on multi-year contracts.
+
+**Why the conviction is low, stated plainly.** The discount to peers is
+**+1.0%**, which is noise, not signal. And the reverse DCF says the current
+price already assumes **+7.4% terminal growth**. It ranks first because it is
+clean and balanced, not because it is cheap. The tool prints a
+`LOW CONVICTION` warning on exactly this condition.
 
 ### PASS — Open Lending (LPRO, $0.37bn)
 
@@ -183,27 +210,59 @@ recovery off that collapsed base; the real multi-year trend is −19.6%.
 
 ### Note on the unconstrained winner
 
-The top unconstrained score is **PayPal**. It is not the recommendation. The
-mandate is investment/M&A targets, and at $45bn PayPal is neither actionable
-nor under-researched — which is exactly where an AI screen adds least. The
-mandate filter (`< $5bn`) is an explicit, documented criterion, and both
-rankings are reported.
+The top unconstrained score is **Fiserv (0.572)** — a 13% discount, 38.9% EBITDA
+margin, the highest raw score in the universe. The `< $5bn` mandate filter
+excludes it at $24.7bn. That filter is an explicit criterion, not an oversight,
+and both rankings are always reported.
+
+### Robustness: the weights are arbitrary, so they were attacked
+
+The obvious challenge to any scoring model is *"you chose those weights."* So
+the model was stress-tested rather than defended:
+
+| Test | Result |
+|---|---|
+| 36 plausible weight combinations | **Same winner in 33 of 36** |
+| Drop any single criterion entirely | Same winner in 5 of 6 |
+| Remove the confidence gate | **Recommendation changes** — the gate does real work |
+| Move the mandate cap ($1bn–$1tn) | Same winner |
+
+The ranking is **robust to the weights** and **sensitive to price**.
 
 ### The single biggest reason the recommendation could be wrong
 
-**Mitek's moat and its risk are the same asset.** The thesis rests on the cheque
-annuity being *durable enough* to fund the identity-verification transition. If
-cheque volumes decline faster than modelled, or the patent estate expires or is
-invalidated, the annuity does not fade — it steps down, and the growth option is
-not yet large enough to absorb it. The screen cannot see this, because
-**everything it measures is trailing.** A 27% trailing EBITDA margin on a
-structurally shrinking revenue base looks identical to a 27% margin on a stable
-one. Mitek has also had **delayed financial filings** historically — a
-governance signal, and a data-integrity risk for a tool that trusts reported
-figures.
+**The mandate and the opportunity are in different places.**
 
-Put plainly: I am recommending a company on the quality of cash flows whose
-duration my tool does not measure.
+The only genuinely cheap business in this universe is Fiserv — 13% discount,
+38.9% margins, highest raw score — and our own `< $5bn` filter excludes it. So
+the recommendation is the best-ranked name in a sub-sector where *nothing* is
+mispriced, while the actual opportunity sits outside the constraint.
+
+If this call is wrong, it is because **the question as posed was answered
+instead of the honest thing being said**: on this data, today, the right action
+is to widen the universe rather than force a pick from fifteen names whose
+multiples span 3.17× to 4.10×.
+
+**A second, structural reason.** Everything the screen measures is *trailing*. A
+27% trailing EBITDA margin on a structurally shrinking revenue base looks
+identical to 27% on a stable one. The tool cannot distinguish duration of cash
+flows, which is the thing that actually determines value.
+
+### Price sensitivity, demonstrated
+
+This was built on 20 September and refreshed on the 26th. In six days:
+
+| | 20 Sep | 26 Sep |
+|---|---|---|
+| Mitek | $16.73 | $17.66 (**+5.6%**) |
+| nCino | $21.05 | $19.41 (**−7.8%**) |
+| FI-software median EV/Revenue | 4.13× | 3.77× |
+| **Recommendation** | **MITK** | **NCNO** |
+
+Mitek did not get worse — it got *more expensive*, and its 13% discount went to
+zero. This is a property of relative-multiple screening, not a defect being
+confessed: **a comps ranking is a snapshot.** It is dated deliberately and
+reproducible on demand.
 
 ---
 
