@@ -213,7 +213,7 @@ a{color:var(--accent)}
   <p class="lead">A prototype that screens 15 public companies across two fintech sub-sectors — and spends most of its effort deciding which of its own numbers to distrust.</p>
   <div class="g3" style="margin-top:30px">
     <div class="stat"><h3>Universe</h3><div class="big">15</div><p>8 payments · 7 FI software · 5 under-covered</p></div>
-    <div class="stat"><h3>AI claims auto-verified</h3><div class="big">37<span class="dim" style="font-size:.5em">/41</span></div><p>4 failed against live data</p></div>
+    <div class="stat"><h3>AI claims auto-verified</h3><div class="big">36<span class="dim" style="font-size:.5em">/41</span></div><p>5 failed against live data</p></div>
     <div class="stat"><h3>Conclusion</h3><div class="big warn">Low<br><span style="font-size:.55em">conviction</span></div><p>Nothing in this universe is meaningfully cheap today</p></div>
   </div>
   <p class="dim" style="font-size:13px;margin-top:24px">Data refreshed 26 September 2026 · <span class="mono">python3 run.py</span> reproduces every figure in this deck</p>
@@ -382,8 +382,8 @@ MITK   FY_stmt     180    info_TTM     198    gap +10.1%</pre>
   <p>The qualitative layer is not free text. Each company entry carries <strong>machine-checkable claims</strong> — a numeric assertion about a computed field, or an assertion that a named quality flag will fire. All 41 are evaluated on every run.</p>
   <div class="g3" style="margin:20px 0">
     <div class="stat"><h3>Claims</h3><div class="big">41</div></div>
-    <div class="stat"><h3>Passed</h3><div class="big good">37</div></div>
-    <div class="stat"><h3>Failed</h3><div class="big bad">4</div></div>
+    <div class="stat"><h3>Passed</h3><div class="big good">36</div></div>
+    <div class="stat"><h3>Failed</h3><div class="big bad">5</div></div>
   </div>
   <pre><b>[FAIL]</b> MQ-1    "Marqeta's EBITDA is negative"
         -> ebitda = 2.08e+07; claim asserted &lt; 0
@@ -392,8 +392,10 @@ MITK   FY_stmt     180    info_TTM     198    gap +10.1%</pre>
 <b>[FAIL]</b> NCNO-2  "nCino trades at a premium EV/Revenue"
         -> ev_revenue = 3.733; claim asserted &gt; 4.13
 <b>[FAIL]</b> ALKT-3  "Alkami trades at a premium EV/Revenue"
-        -> ev_revenue = 3.580; claim asserted &gt; 4.13</pre>
-  <p style="margin-top:14px">This makes “I checked the AI’s work” a reproducible artefact rather than an assurance. The last two failures appeared only on the refresh — the peer median moved from 4.13× to 3.77× and two claims that had passed stopped passing.</p>
+        -> ev_revenue = 3.580; claim asserted &gt; 4.13
+<b>[FAIL]</b> PRTH-4  "Priority trades below the payments peer median"
+        -> ev_ebitda = 7.481; claim asserted &lt; 7.26</pre>
+  <p style="margin-top:14px">This makes “I checked the AI’s work” a reproducible artefact rather than an assurance. <strong>Three of these five appeared only on the refresh.</strong> <span class="mono">PRTH-4</span> was <em>true</em> on 20 September — Priority traded at 6.72× against a 7.26× median — and became false when the stock rose 33%. A verification harness is only as current as its last run.</p>
 </div></section>
 
 <section class="slide" data-sec="AI layer"><div class="inner">

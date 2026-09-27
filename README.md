@@ -21,7 +21,7 @@ streamlit run app.py      # interactive demo
 | **Small / under-covered names** | PRTH, PMTS, MITK, LPRO, IIIV — 5 of 15 |
 | **Recommendation — PURSUE** | **NCNO** (nCino, $2.05bn) — *low conviction, see below* |
 | **Recommendation — PASS** | **LPRO** (Open Lending, $0.37bn) — high conviction |
-| **AI claims auto-verified** | 41 · **37 pass / 4 fail** |
+| **AI claims auto-verified** | 41 · **36 pass / 5 fail** |
 | **Data as of** | 26 September 2026 |
 
 Two headline findings:
@@ -150,7 +150,7 @@ key risk) — but every entry also carries **machine-checkable claims**, either 
 numeric assertion about a computed field or an assertion that a named
 data-quality flag will fire. `src/verify.py` evaluates all 41 on every run.
 
-**Result: 37 pass, 4 fail.** The failures are real and reproducible:
+**Result: 36 pass, 5 fail.** The failures are real and reproducible:
 
 - **`MQ-1`** — the model asserted Marqeta's EBITDA is negative. It was, on
   FY2025. **TTM EBITDA is +$20.8M.** The model was reporting correctly as of
@@ -161,9 +161,15 @@ data-quality flag will fire. `src/verify.py` evaluates all 41 on every run.
 - **`NCNO-2` and `ALKT-3`** — asserted nCino and Alkami trade at premiums.
   Both trade at discounts (3.73× and 3.58× against a 3.77× median).
   Qualitatively plausible, quantitatively false, and they would survive a human
-  skim. Note that `ALKT-3` *passed* on 20 September and *failed* on the 26th:
-  the peer median moved beneath it. A verification harness is only as current as
-  its last run.
+  skim.
+- **`PRTH-4`** — asserted Priority trades below the payments peer median. It did
+  on 20 September (6.72× vs 7.26×); by the 26th the stock had risen 33% and it
+  did not (7.48× vs 7.48×).
+
+Three of the five failures appeared only on the refresh. `ALKT-3` and `PRTH-4`
+did not fail because the model was wrong — they failed because **the market
+moved beneath them.** The harness cannot distinguish "the AI was mistaken" from
+"the world changed", and that limitation is stated rather than hidden.
 
 Full write-up, including the two larger errors caught before modelling began
 (i3 Verticals, MeridianLink): **[`research/verification_log.md`](research/verification_log.md)**.
@@ -302,7 +308,9 @@ app.py                 Streamlit demo
 
 ---
 
-## Slide deck
+## Deck and walkthrough
 
-Open `deck.html` in a browser (14 slides, arrow keys to navigate), or view it
-online: https://claude.ai/artifact/PkW3P4xXAERBTFt3JeS7UU
+- **`deck.html`** — 15-slide presentation deck. Open in a browser; arrow keys or
+  the section tabs to navigate; Cmd-P exports all slides to PDF.
+- **`TUTORIAL.html`** — a ten-section walkthrough of the pipeline: what each step
+  does in plain English, the code behind it, and commands to run.
