@@ -310,5 +310,6 @@ app.py                 Streamlit demo
 
 ## Slide deck
 
-- **`deck.html`** — 15-slide presentation deck. Open in a browser; arrow keys or
-  the section tabs to navigate; Cmd-P exports all slides to PDF.
+- **`index.html`** — 16-slide presentation deck. Open in a browser, or view it
+  live at **https://saranshraina.github.io/fintech-comps-screener/**.
+  Arrow keys or the section tabs navigate; Cmd-P exports all slides to PDF.
