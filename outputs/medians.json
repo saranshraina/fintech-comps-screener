@@ -18,8 +18,8 @@
    ]
   },
   "pe": {
-   "median": 36.70457684711077,
-   "mean": 38.77640824949904,
+   "median": 35.98336964780398,
+   "mean": 38.01105158806271,
    "n_used": 4,
    "n_total": 6,
    "excluded_tickers": [
@@ -51,8 +51,8 @@
    "excluded_tickers": []
   },
   "fcf_yield": {
-   "median": 0.051445925811770446,
-   "mean": 0.043909336159576366,
+   "median": 0.051872753825679886,
+   "mean": 0.044688658997299645,
    "n_used": 6,
    "n_total": 6,
    "excluded_tickers": []
@@ -61,7 +61,7 @@
  "Merchant Payments & Transaction Processing": {
   "ev_revenue": {
    "median": 1.5792299295874441,
-   "mean": 1.8333062974183376,
+   "mean": 1.8315223702641157,
    "n_used": 6,
    "n_total": 8,
    "excluded_tickers": [
@@ -71,7 +71,7 @@
   },
   "ev_ebitda": {
    "median": 7.480703634483478,
-   "mean": 8.416495452720913,
+   "mean": 8.412563262432522,
    "n_used": 7,
    "n_total": 8,
    "excluded_tickers": [
@@ -79,8 +79,8 @@
    ]
   },
   "pe": {
-   "median": 14.340964052057867,
-   "mean": 19.383982076124493,
+   "median": 14.1774700321196,
+   "mean": 19.25844107232008,
    "n_used": 6,
    "n_total": 8,
    "excluded_tickers": [
@@ -110,8 +110,8 @@
    "excluded_tickers": []
   },
   "fcf_yield": {
-   "median": 0.11728845029133808,
-   "mean": 0.12317653322213158,
+   "median": 0.11826519663420568,
+   "mean": 0.12408834782729983,
    "n_used": 8,
    "n_total": 8,
    "excluded_tickers": []

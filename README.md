@@ -19,10 +19,10 @@ streamlit run app.py      # interactive demo
 |---|---|
 | **Sub-sectors** | Merchant Payments & Transaction Processing (8) · Financial-Institution Software (7) |
 | **Small / under-covered names** | PRTH, PMTS, MITK, LPRO, IIIV — 5 of 15 |
-| **Recommendation — PURSUE** | **NCNO** (nCino, $2.05bn) — *low conviction, see below* |
+| **Recommendation — PURSUE** | **NCNO** (nCino, $2.00bn) — *low conviction, see below* |
 | **Recommendation — PASS** | **LPRO** (Open Lending, $0.37bn) — high conviction |
 | **AI claims auto-verified** | 41 · **36 pass / 5 fail** |
-| **Data as of** | 26 September 2026 |
+| **Data as of** | 28 September 2026 |
 
 Two headline findings:
 
@@ -192,7 +192,7 @@ factor** derived from the quality flags on that name.
 The confidence gate is the part that matters. A company cannot rank highly on
 numbers we do not trust.
 
-### PURSUE — nCino (NCNO, $2.05bn) — low conviction
+### PURSUE — nCino (NCNO, $2.00bn) — low conviction
 
 Score 0.517 = raw 0.517 × confidence **1.00**. The best-rounded name inside the
 mandate (value 0.67, quality 0.75, growth 0.67) and the **only company in the
@@ -256,12 +256,12 @@ flows, which is the thing that actually determines value.
 
 ### Price sensitivity, demonstrated
 
-This was built on 20 September and refreshed on the 26th. In six days:
+This was built on 20 September and refreshed on the 28th. In eight days:
 
-| | 20 Sep | 26 Sep |
+| | 20 Sep | 28 Sep |
 |---|---|---|
 | Mitek | $16.73 | $17.66 (**+5.6%**) |
-| nCino | $21.05 | $19.41 (**−7.8%**) |
+| nCino | $21.05 | $18.90 (**−10.2%**) |
 | FI-software median EV/Revenue | 4.13× | 3.77× |
 | **Recommendation** | **MITK** | **NCNO** |
 
