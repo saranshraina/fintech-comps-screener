@@ -4,3 +4,6 @@ data/cache/
 outputs/_*.pkl
 .DS_Store
 .venv/
+
+# local prep notes, not part of the deliverable
+TUTORIAL.html

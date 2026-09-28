@@ -308,9 +308,7 @@ app.py                 Streamlit demo
 
 ---
 
-## Deck and walkthrough
+## Slide deck
 
 - **`deck.html`** — 15-slide presentation deck. Open in a browser; arrow keys or
   the section tabs to navigate; Cmd-P exports all slides to PDF.
-- **`TUTORIAL.html`** — a ten-section walkthrough of the pipeline: what each step
-  does in plain English, the code behind it, and commands to run.
